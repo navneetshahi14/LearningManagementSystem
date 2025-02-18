@@ -1,5 +1,6 @@
 const course = require('../model/CourseSchema')
 const category = require('../model/Category')
+const Review = require('../model/ReviewSchema')
 
 const getCourse = async(req,res) =>{
     try{
@@ -45,9 +46,25 @@ const CategoryAccess = async(req,res) =>{
     }
 }
 
+const getReviews = async (req, res) => {
+    try {
+      const { courseId } = req.params;
+  
+      const reviews = await Review.find({ course: courseId })
+        .populate("user", "name email")
+        .populate("replies.user", "name email");
+  
+      res.status(200).json(reviews);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
+
 module.exports = {
     getCourse,
     getCourseById,
     CourseSearchByTag,
-    CategoryAccess
+    CategoryAccess,
+    getReviews
 }

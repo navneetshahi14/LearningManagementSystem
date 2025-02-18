@@ -1,5 +1,6 @@
 const category = require('../model/Category')
 const user = require('../model/UserSchema')
+const Review = require('../model/ReviewSchema')
 
 const categoryCreation = async(req,res)=>{
     try{
@@ -48,9 +49,29 @@ const AllUser = async(req,res) =>{
     }
 }
 
+const deleteReview = async (req, res) => {
+    try {
+      const { reviewId } = req.params;
+      const userId = req.user.id;
+  
+      const review = await Review.findById(reviewId);
+      if (!review) return res.status(404).json({ message: "Review not found" });
+  
+      if (review.user.toString() !== userId) {
+        return res.status(403).json({ message: "Unauthorized to delete this review" });
+      }
+  
+      await Review.findByIdAndDelete(reviewId);
+      res.status(200).json({ message: "Review deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
 
 module.exports = {
     categoryCreation,
     categoryDeletion,
-    AllUser
+    AllUser,
+    deleteReview
 }
