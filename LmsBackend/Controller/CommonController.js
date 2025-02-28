@@ -112,5 +112,6 @@ module.exports = {
     getCourseById,
     CourseSearchByTag,
     CategoryAccess,
-    getReviews
+    getReviews,
+    streamVideo
 }

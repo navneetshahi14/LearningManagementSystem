@@ -1,7 +1,8 @@
 const course = require("../model/CourseSchema");
 const Quiz = require("../model/QuizSchema");
 const Review = require('../model/ReviewSchema')
-const lesson = require('../model/LessonSchema')
+const lesson = require('../model/LessonSchema');
+const { updateOnNewLesson } = require("../Config/SendEmail");
 
 const CourseCreation = async (req, res) => {
   try {
@@ -84,7 +85,7 @@ const addReply = async (req, res) => {
     try {
       const { reviewId } = req.params;
       const { comment } = req.body;
-      const userId = req.user.id; // Authenticated user
+      const userId = req.user.id;
   
       const review = await Review.findById(reviewId);
       if (!review) {
@@ -121,9 +122,13 @@ const addReply = async (req, res) => {
           position:course.lessons.length + 1
         })
 
-        await newLesson.save()
+        const newles = await newLesson.save()
         
         await course.findByIdAndUpdate(course,{$push:{lessons:newLesson._id}})
+
+        if(newles){
+          await updateOnNewLesson(newLesson._id)
+        }
 
         res.status(201).json({msg:"Lesson added successfully"})
       }
@@ -169,6 +174,7 @@ const addReply = async (req, res) => {
       console.log(err.message)
     }
   }
+
 
 module.exports = {
   CourseCreation,

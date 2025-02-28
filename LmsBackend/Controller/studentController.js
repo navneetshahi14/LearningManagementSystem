@@ -62,5 +62,6 @@ const AddReview = async(req,res) =>{
 
 module.exports = {
     trackProgress,
-    getUserStat
+    getUserStat,
+    AddReview
 }
