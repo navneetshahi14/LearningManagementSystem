@@ -5,6 +5,7 @@ const {protect,authorizeRoles} = require('../middleware/authmiddleware')
 
 
 instructorRoute.post('/createCourse',protect,authorizeRoles("instructor"),instructorController.CourseCreation)
+instructorRoute.get('/allCourse/:instructorId',protect,authorizeRoles("instructor"),instructorController.AllCourseById)
 instructorRoute.post('/deleteCourse',protect,authorizeRoles("instructor"),instructorController.CourseDeletion)
 
 

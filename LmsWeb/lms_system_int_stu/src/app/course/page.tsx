@@ -4,6 +4,9 @@ import Filter from '../_components/main/Filter'
 import AllCourses from '../_components/main/AllCourses'
 
 const CourseShowcase = () => {
+
+  
+
   return (
     <>
         <div className="h-screen w-full overflow-hidden">

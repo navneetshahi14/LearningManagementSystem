@@ -12,15 +12,16 @@ const UserRegister = async(req,res) =>{
             res.status(404).json({msg:"Please fill all the fields"})
         }
 
-        const existingUser = await user.find(email)
+        const existingUser = await user.findOne({email:email})
 
         const hashedPass = await passwordHash(password)
 
         if(!existingUser){
+            
             const newUser = new user({
                 name,
                 email,
-                hashedPass,
+                password:hashedPass,
                 profilePic,
                 role,
                 bio
@@ -29,7 +30,7 @@ const UserRegister = async(req,res) =>{
             const userSaved = await newUser.save()
 
             if(userSaved){
-                res.status(200).json({msg:"Registered successfully",name:ifUserExist.name,email:ifUserExist.email,role:ifUserExist.role,profilePic:ifUserExist.profilePic,bio:ifUserExist.bio,enrolledCourse:ifUserExist.enrolledCourse,couserCreated:ifUserExist.courseCreated,token:generateToken(ifUserExist._id)})
+                res.status(200).json({msg:"Registered successfully",user:userSaved,token:generateToken(userSaved._id)})
 
             }else{
                 res.status(404).json({msg:"Something went wrong"})
@@ -51,7 +52,7 @@ const UserLogin = async(req,res) =>{
 
         const {email,password} = req.body
 
-        const ifUserExist = await user.find(email)
+        const ifUserExist = await user.findOne({email:email})
 
         if(!ifUserExist){
             res.status(404).json({msg:"User Doesn't exist"})
@@ -60,7 +61,8 @@ const UserLogin = async(req,res) =>{
             const passcomp = await passwordCompare(password,ifUserExist.password)
 
             if(passcomp){
-                res.status(200).json({msg:"Login successful",name:ifUserExist.name,email:ifUserExist.email,role:ifUserExist.role,profilePic:ifUserExist.profilePic,bio:ifUserExist.bio,enrolledCourse:ifUserExist.enrolledCourse,couserCreated:ifUserExist.courseCreated,token:generateToken(ifUserExist._id)})
+                const token = generateToken(ifUserExist._id)
+                res.status(200).json({msg:"Login successful",user:ifUserExist,token})
             }else{
                 res.status(300).json({msg:"User Credentials are incorrect"})
             }

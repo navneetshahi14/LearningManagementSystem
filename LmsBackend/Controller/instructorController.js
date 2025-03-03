@@ -13,16 +13,29 @@ const CourseCreation = async (req, res) => {
       price,
       thumbnail,
       category,
-      tag,
+      tags:tag,
       instructor: req.user.id,
     });
 
     await newCourse.save();
-    res.status(200).json({ msg: "Course Created", course });
+    res.status(200).json({ msg: "Course Created", course:newCourse });
   } catch (err) {
     console.log(err.message);
   }
 };
+
+const AllCourseById = async(req,res) =>{
+  try{
+      const {instructorId} = req.params
+    
+      const findCourse = await course.find({instructor:instructorId})
+      console.log(findCourse)
+      res.status(200).json({course:findCourse})
+
+  }catch(err){
+    console.log(err.message)
+  }
+}
 
 const CourseDeletion = async (req, res) => {
   try {
@@ -185,5 +198,6 @@ module.exports = {
   addReply,
   updateLesson,
   deleteLesson,
-  AddLessons
+  AddLessons,
+  AllCourseById
 };
