@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Yatra+One&display=swap');
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme{
+  --container-s:"800px";
+  --container-xs:"400px";
+  --container-4xl:"1500px";
+  --container-3xl:"1300px";
+  --container-2xl:"1200px";
+  --container-xl:"1100px";
+  --container-l:"1000px";
+  --color-gradientRadial:'radial-gradient(var(--tw-gradient-stops))';
+  --color-gradientConic:'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
+  --font-Libre: "Libre Franklin", sans-serif;
+  --font-yatra: "Yatra One", system-ui;
+  --font-poppins: "Poppins", sans-serif;
+}
+
+
+.hero_animation{
+  background-image: linear-gradient(147.92deg, hsla(239,76%,53%,0.456) 10.41%, hsla(0,0%,100%,0) 89.25%);
+  animation: changeBackground 8s infinite alternate ;
+}
+
+
+@keyframes changeBackground{
+  0%,100% {
+    opacity:1;
+  }
+  16.67% {
+    opacity: 0.9;
+  }
+  33.33% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  66.67% {
+    opacity: 0.5;
+  }
+  83.33% {
+    opacity: 0.4;
+  }
+}
+
+::-webkit-scrollbar{
+  width: 8px;
+}
+
+::-webkit-scrollbar-track{
+  background: #1771c6;
+}
+
+::-webkit-scrollbar-thumb{
+  background: #f5f5f5b0;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background: #32ae7e;
+}
+
+
+@keyframes shake {
+  0%{
+    transform: translateX(0);
+  }
+  20%{
+    transform: translateX(-2px);
+  }
+  40%{
+    transform: translateX(2px);
+  }
+  60%{
+    transform: translateX(-2px);
+  }
+  80%{
+    transform: translateX(2px);
+  }
+  100%{
+    transform: translateX(0);  
+  }
+}
+
+
+.shaking{
+  animation:shake 0.5s ease-in-out;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type ="number"]{
+  -moz-appearance: textfield;
+}
