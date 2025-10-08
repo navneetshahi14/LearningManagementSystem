@@ -5,8 +5,11 @@ import Heading from "@/app/utils/Heading";
 import Header from "../Header";
 import CourseDetails from "../../components/Course/CourseDetails";
 import Footer from "../Routes/Footer";
-import { useCreatePaymentIntentMutation, useGetStripePublichableKeyQuery } from "@/redux/feature/orders/ordersApi";
-import {loadStripe} from '@stripe/stripe-js'
+import {
+  useCreatePaymentIntentMutation,
+  useGetStripePublichableKeyQuery,
+} from "@/redux/feature/orders/ordersApi";
+import { loadStripe } from "@stripe/stripe-js";
 
 type Props = {
   id: string;
@@ -17,28 +20,31 @@ const CourseDetailsPage = ({ id }: Props) => {
   const [open, setOpen] = useState(false);
 
   const { data, isLoading } = useGetCourseDetailQuery(id);
-  const {data:config} = useGetStripePublichableKeyQuery({})
-  const [createPaymentIntent,{data:paymentIntentData}] = useCreatePaymentIntentMutation()
+  const { data: config } = useGetStripePublichableKeyQuery({});
+  const [createPaymentIntent, { data: paymentIntentData }] =
+    useCreatePaymentIntentMutation();
 
-  const [stripePromise,setStripePromise] = useState<any>(null)
-  const [clientSecret,setClientSecret] = useState('')
+  const [stripePromise, setStripePromise] = useState<any>(null);
+  const [clientSecret, setClientSecret] = useState("");
 
-  useEffect(()=>{
-    if(config){
-        const publishableKey = config.publishableKey;
-        setStripePromise(loadStripe(publishableKey))
+  useEffect(() => {
+    if (config) {
+      const publishableKey = config.publishableKey;
+      setStripePromise(loadStripe(publishableKey));
     }
-    if(data){
-        const amount = Math.round(data.course.price * 100)
-        createPaymentIntent(amount)
+    if (data) {
+      const amount = Math.round(data.course.price * 100);
+      createPaymentIntent(amount);
     }
-  },[config,data])
+  }, [config, data]);
 
-  useEffect(()=>{
-    if(paymentIntentData){
-        setClientSecret(paymentIntentData?.client_secret)
+  useEffect(() => {
+    if (paymentIntentData) {
+      setClientSecret(paymentIntentData?.client_secret);
     }
-  },[paymentIntentData])
+  }, [paymentIntentData]);
+
+  
 
   return (
     <>
@@ -56,14 +62,18 @@ const CourseDetailsPage = ({ id }: Props) => {
             setRoute={setRoute}
             open={open}
             setOpen={setOpen}
-            activeItem={1}
+            activeItem={2}
             setActiveItem={() => {}}
           />
-          {
-            stripePromise && (
-                <CourseDetails data={data.course} stripePromise={stripePromise} clientSecret={clientSecret} />
-            )
-          }
+          {stripePromise && (
+            <CourseDetails
+              data={data.course}
+              stripePromise={stripePromise}
+              clientSecret={clientSecret}
+              setRoute={setRoute}
+              setOpen={setOpen}
+            />
+          )}
           <Footer />
         </div>
       )}

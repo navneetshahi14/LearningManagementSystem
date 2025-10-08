@@ -85,7 +85,7 @@ export const createOrder = CatchAsyncError(async(req:Request,res:Response,next:N
             message:`You have a new order from ${course?.name}`
         })
 
-        course.purchased ? course.purchased += 1 : course.purchased
+        course.purchased = course.purchased + 1;
 
         await course.save()
 

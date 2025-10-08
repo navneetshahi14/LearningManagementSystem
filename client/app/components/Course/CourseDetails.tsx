@@ -2,34 +2,47 @@ import { styles } from "@/app/styles/styles";
 import CoursePlayer from "@/app/utils/CoursePlayer";
 import Rating from "@/app/utils/Rating";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoCheckmarkDoneOutline, IoCloseOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { format } from "timeago.js";
 import { Elements } from "@stripe/react-stripe-js";
-import CheckOutForm from '../Payment/CheckOutForm'
+import CheckOutForm from "../Payment/CheckOutForm";
 import { useLoadUserQuery } from "@/redux/feature/api/apiSlice";
+import Image from "next/image";
+import CourseContentList from "./CourseContentList";
 
 type Props = {
   data: any;
   clientSecret: string;
   stripePromise: any;
+  setOpen:any;
+  setRoute:any;
 };
 
-const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
-  const {data:userdata} = useLoadUserQuery(undefined,{})
-  const user = userdata?.user
+const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModal, setRoute }: Props) => {
+  const { data: userdata } = useLoadUserQuery(undefined, {});
+  // const user = ;
   const [open, setOpen] = useState(false);
   const discountPercentage =
     ((data?.estimatedPrice - data.price) / data?.estimatedPrice) * 100;
 
+  const [user,setUser] = useState<any>()
+  useEffect(()=>{
+    setUser(userdata?.user)
+  },[userdata])
   const discountPercentagePrice = discountPercentage.toFixed(0);
 
   const isPurchased =
     user && user?.courses?.find((item: any) => item._id === data._id);
 
   const handleOrder = (e: any) => {
-    setOpen(true);
+    if(user){
+      setOpen(true);
+    }else{
+      setRoute("Login")
+      openAuthModal(true)
+    }
   };
 
   return (
@@ -94,12 +107,13 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
                 Course Overview
               </h1>
               {/* Course Content list */}
+              <CourseContentList data={data?.courseData} isDemo={true}  />
             </div>
             <br />
             <br />
             <div className="w-full">
               <h1 className="text-[25px] font-poppins font-[600] text-black dark:text-white ">
-                Course Overview
+                Course Details
               </h1>
               <p className="text-[18px] mt-[20px] whitespace-pre-line w-full overflow-hidden text-black dark:text-white ">
                 {data.description}
@@ -124,10 +138,18 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
                     <div className="w-full pb-4" key={index}>
                       <div className="flex">
                         <div className="w-[50px] h-[50px] ">
-                          <div className="w-[50px] h-[50px] bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer ">
-                            <h1 className="uppercase text-[18px] text-black dark:text-white ">
-                              {item.user.name.slice(0, 2)}
-                            </h1>
+                          <div>
+                            <Image
+                              src={
+                                item.user.avatar
+                                  ? item.user.avatar.url
+                                  : "https://imgs.search.brave.com/gC4PemsyQfxAGl4nIbbzO3tCfYE0jlhJnRFYcrAbgJM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxNy8w/Ny8xOC8yMy8yMy91/c2VyLTI1MTc0MzBf/NjQwLnBuZw"
+                              }
+                              width={50}
+                              height={50}
+                              alt=""
+                              className="rounded-full w-[50px] h-[50px] object-contain"
+                            />
                           </div>
                         </div>
                         <div className="hidden md:bolck pl-2">
@@ -206,9 +228,11 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
                 />
               </div>
               <div className="w-full">
-                {stripePromise && clientSecret && <Elements stripe={stripePromise} options={{clientSecret}}>
-                  <CheckOutForm setOpen={setOpen} data={data} />
-                </Elements>}
+                {stripePromise && clientSecret && (
+                  <Elements stripe={stripePromise} options={{ clientSecret }}>
+                    <CheckOutForm user={user} setOpen={setOpen} data={data} />
+                  </Elements>
+                )}
               </div>
             </div>
           </div>

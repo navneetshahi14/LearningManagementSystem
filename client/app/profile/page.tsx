@@ -9,6 +9,7 @@ import Header from '../components/Header'
 import Heading from '../utils/Heading'
 import Profile from '../components/Profile/Profile'
 import { useSelector } from 'react-redux'
+import Footer from '../components/Routes/Footer'
 
 type Props = {}
 
@@ -33,6 +34,7 @@ const page: React.FC<Props> = () => {
                         setActiveItem={setActiveItem}
                     />
                     <Profile user={user} />
+                    <Footer />
                 </Protected>
             </div>
         </>

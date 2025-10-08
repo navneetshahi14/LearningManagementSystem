@@ -7,6 +7,10 @@ import { Providers } from "./Provider";
 import { SessionProvider } from "next-auth/react";
 import { useLoadUserQuery } from "@/redux/feature/api/apiSlice";
 import Loader from "./components/Loader/Loader";
+import socketIO from 'socket.io-client'
+import { useEffect } from "react";
+const ENDPOINT = process.env.NEXT_PUBLIC_SERVER_URI || "";
+const socketId = socketIO(ENDPOINT,{transports:['websocket']})
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +48,11 @@ export default function RootLayout({
 
 const Custom: React.FC<{children:React.ReactNode}> = ({children}) =>{
   const {isLoading} = useLoadUserQuery({})
+
+  useEffect(()=>{
+    socketId.on("connection",()=>{})
+  },[])
+
   return(
     <>
       {
