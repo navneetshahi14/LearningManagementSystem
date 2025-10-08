@@ -35,6 +35,7 @@ const AllCourses: FC<Props> = () => {
     {},
     { refetchOnMountOrArgChange: true }
   );
+  console.log(data)
   const [courseId, setCourseId] = useState();
   const [open, setOpen] = useState(false);
   const [deleteCourse, { isSuccess, error }] = useDeleteCourseMutation({});
@@ -119,7 +120,7 @@ const AllCourses: FC<Props> = () => {
   };
 
   return (
-    <div className="mt-[120px]">
+    <div className="mt-[120px] z-[1]">
       <Box m="20px" paddingLeft={10}>
         {isLoading ? (
           <Loader />
@@ -179,6 +180,7 @@ const AllCourses: FC<Props> = () => {
                 color: `#fff !important`,
               },
             }}
+            
           >
             <DataGrid checkboxSelection rows={rows} columns={columns} />
           </Box>

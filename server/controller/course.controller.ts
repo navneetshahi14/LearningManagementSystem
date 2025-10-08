@@ -138,10 +138,12 @@ export const getAllCourse = CatchAsyncError(async (req: Request, res: Response, 
 export const getCourseByUser = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userCourseList = req.user?.courses
+        console.log(userCourseList)
 
         const courseId = req.params.id
+        console.log(courseId)
 
-        const courseExist = userCourseList?.find((course: any) => course._id.toString() === courseId)
+        const courseExist = userCourseList?.find((course: any) => course.courseId.toString() === courseId)
 
         if (!courseExist) {
             return next(new Errorhandler("Your are not eligible to access this course", 400))
@@ -150,6 +152,7 @@ export const getCourseByUser = CatchAsyncError(async (req: Request, res: Respons
         const course = await CourseModel.findById(courseId)
 
         const content = course?.courseData
+        console.log(content)
 
         res.status(200).json({
             success: true,
@@ -301,7 +304,7 @@ export const addReview = CatchAsyncError(async (req: Request, res: Response, nex
 
         const courseId = req.params.id;
 
-        const courseExists = userCourseList?.some((course: any) => course._id.toString() === courseId.toString())
+        const courseExists = userCourseList?.some((course: any) => course.courseId.toString() === courseId.toString())
 
         if (!courseExists) {
             return next(new Errorhandler("You are not eligible to access this course", 400))
@@ -410,7 +413,12 @@ export const addReplyToReview = CatchAsyncError(async (req: Request, res: Respon
 export const GettingAllCourses = CatchAsyncError(async(req:Request,res:Response,next:NextFunction)=>{
     try{
 
-        getAllCourseService(res)
+        const course = await getAllCourseService(res)
+        
+        res.status(200).json({
+            success:true,
+            course
+        })
 
     }catch(err:any){
         return next(new Errorhandler(err.message,400))
@@ -440,7 +448,6 @@ export const generateVideoUrl = CatchAsyncError(async(req:Request,res:Response,n
 
         
 
-        console.log(response.data)
         res.status(200).json(response.data)
 
     }catch(error:any){

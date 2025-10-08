@@ -12,6 +12,7 @@ import DashboardHeader from "./DashboardHeader";
 import { useCreateCourseMutation } from "@/redux/feature/courses/courseApi";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
+import DashboardHero from "./DashboardHero";
 
 type Props = {};
 
@@ -122,7 +123,6 @@ const CreateCourse = (props: Props) => {
 
   return (
     <div className="w-full flex min-h-screen">
-      <DashboardHeader />
       <div className="w-[80%]">
         {active === 0 && (
           <CourseInformation

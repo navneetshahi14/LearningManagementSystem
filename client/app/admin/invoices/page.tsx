@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-empty-object-type */
+'use client'
 import React from 'react'
 import Heading from '../../utils/Heading'
 import AdminSidebar from '../../components/Admin/Sidebar/AdminSidebar'
 import DashboardHeader from '@/app/components/Admin/DashboardHeader'
 import AllInvoices from '@/app/components/Admin/Orders/AllInvoices'
+import DashboardHero from '@/app/components/Admin/DashboardHero'
 
 type Props = {}
 
@@ -22,7 +22,7 @@ const page = (props: Props) => {
                     <AdminSidebar />
                 </div>
                 <div className="w-[80%]">
-                    <DashboardHeader />
+                    <DashboardHero />
                     <AllInvoices />
                 </div>
             </div>

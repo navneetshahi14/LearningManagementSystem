@@ -1,3 +1,4 @@
+'use client'
 import { useGetCourseDetailQuery } from "@/redux/feature/courses/courseApi";
 import React, { useEffect, useState } from "react";
 import Loader from "../Loader/Loader";
@@ -29,7 +30,7 @@ const CourseDetailsPage = ({ id }: Props) => {
 
   useEffect(() => {
     if (config) {
-      const publishableKey = config.publishableKey;
+      const publishableKey = config?.publishablekey;
       setStripePromise(loadStripe(publishableKey));
     }
     if (data) {
@@ -43,8 +44,6 @@ const CourseDetailsPage = ({ id }: Props) => {
       setClientSecret(paymentIntentData?.client_secret);
     }
   }, [paymentIntentData]);
-
-  
 
   return (
     <>

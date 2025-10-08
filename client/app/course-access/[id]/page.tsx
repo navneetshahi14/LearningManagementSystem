@@ -9,13 +9,14 @@ type Props = {
     params:any
 }
 
-const page = ({params}: Props) => {
-    const id = params.id;
+const page = ({params}:  { params: Promise<{ id: string }> }) => {
+    const {id} = React.use(params)
     const {isLoading,error,data} = useLoadUserQuery(undefined,{})
 
     useEffect(()=>{
         if(data){
-            const isPurchased = data.user.course.find((item:any)=> item._id === id)
+            const isPurchased = data.user.courses.find((item:any)=> item.courseId === id)
+
             if(!isPurchased){
                 redirect("/")
             }

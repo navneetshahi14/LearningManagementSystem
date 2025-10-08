@@ -40,11 +40,14 @@ const CheckOutForm = ({ setOpen, data, user }: Props) => {
       elements,
       redirect: "if_required",
     });
+    
     if (error) {
       setMessage(error.message);
       setIsLoading(false);
+      console.log(error)
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       setIsLoading(false);
+      console.log(paymentIntent)
       createOrder({ courseId: data._id, payment_info: paymentIntent });
     }
   };

@@ -17,7 +17,7 @@ const Page: FC<Props> = () => {
   const [route,setRoute] = useState("Login")
 
   return (
-    <div className='dark:bg-[#333]'>
+    <div className='dark:bg-gradient-to-b dark:from-gray-900 dark:to-black'>
       <Heading title='ElevateX' description='ElevateX is a platform for students to learn and get help from teacher' keyword='Programming,MERN,Redux,Machine Learning' />
       <Header 
         open={open}

@@ -32,7 +32,7 @@ export const createLayout = CatchAsyncError(async(req:Request,res:Response,next:
                     subTitle
                 },
             }
-            await LayoutModel.create(banner)
+            const data = await LayoutModel.create(banner)
         }
 
         if(type === 'FAQ'){

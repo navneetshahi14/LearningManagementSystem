@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import EditCourse from '@/app/components/Admin/Course/EditCourse'
 import DashboardHeader from '@/app/components/Admin/DashboardHeader'
+import DashboardHero from '@/app/components/Admin/DashboardHero'
 import AdminSidebar from '@/app/components/Admin/Sidebar/AdminSidebar'
 import Heading from '@/app/utils/Heading'
 import React from 'react'
@@ -25,7 +26,7 @@ const page = ({params}:any) => {
                     <AdminSidebar />
                 </div>
                 <div className="w-[80%]">
-                    <DashboardHeader />
+                    <DashboardHero />
                     {/* <CreateCourse /> */}
                     <EditCourse id={id} />
                 </div>

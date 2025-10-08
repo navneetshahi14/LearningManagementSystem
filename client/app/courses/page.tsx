@@ -8,6 +8,7 @@ import Header from "../components/Header";
 import Heading from "../utils/Heading";
 import { styles } from "../styles/styles";
 import CourseCard from "../components/Course/CourseCard";
+import Footer from "../components/Routes/Footer";
 
 type Props = {};
 
@@ -43,7 +44,7 @@ const page = (props: Props) => {
   const categories = categoriesData?.layout.categories;
 
   return (
-    <div>
+    <div className="dark:bg-gradient-to-b dark:from-gray-900 dark:to-black">
       {isLoading ? (
         <Loader />
       ) : (
@@ -65,7 +66,7 @@ const page = (props: Props) => {
               }
             />
             <br />
-            <div className="w-full flex items-center flex-wrap">
+            <div className="w-full flex items-center flex-wrap mt-15">
               <div
                 className={`h-[35px] ${
                   category === "All" ? "bg-[crimson]" : "bg-[#5050cb]"
@@ -75,7 +76,7 @@ const page = (props: Props) => {
                 All
               </div>
               {categories &&
-                categories.map((item: any, index: number) => {
+                categories.map((item: any, index: number) => (
                   <div key={index} className={``}>
                     <div
                       className={`h-[35px] ${
@@ -87,29 +88,30 @@ const page = (props: Props) => {
                     >
                       {item.title}
                     </div>
-                  </div>;
-                })}
+                  </div>
+                ))}
             </div>
-            {
-                courses && courses.length === 0 && (
-                    <p className={`${styles.label} justify-center min-h-[50vh] flex items-center`}>
-                        {search ? "No Courses found!":"No courses found in this category. Please try another one!"}
-                    </p>
-                )
-            }
+            {courses && courses.length === 0 && (
+              <p
+                className={`${styles.label} justify-center min-h-[50vh] flex items-center`}
+              >
+                {search
+                  ? "No Courses found!"
+                  : "No courses found in this category. Please try another one!"}
+              </p>
+            )}
             <br />
             <br />
-            <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] 2xl:grid-cols-4 2xl:gap-[35px] ">
-                {
-                    courses && 
-                    courses.map((item:any,index:number)=>(
-                        <CourseCard item={item} key={index} />
-                    ))
-                }
+            <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] 2xl:grid-cols-4 2xl:gap-[35px] mb-5">
+              {courses &&
+                courses.map((item: any, index: number) => (
+                  <CourseCard item={item} key={index} />
+                ))}
             </div>
           </div>
         </>
       )}
+      <Footer />
     </div>
   );
 };

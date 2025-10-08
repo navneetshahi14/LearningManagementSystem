@@ -13,6 +13,8 @@ const Courses = (props: Props) => {
         setCourses(data?.course)
     },[data])
 
+    console.log(data)
+
   return (
     <div>
       <div className={`w-[90%] md:w-[80%] m-auto`}>

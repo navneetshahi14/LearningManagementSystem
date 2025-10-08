@@ -12,7 +12,7 @@ const page = (props: Props) => {
   const [activeItem, setActiveItem] = useState(2);
   const [route, setRoute] = useState("Login");
   return (
-    <div>
+    <div className="dark:bg-gradient-to-b dark:from-gray-900 dark:to-black bg-gray-200 min-h-screen flex flex-col justify-between">
       <Heading
         title="About us - ElevateX"
         description="Elearning is a learning management system for helping programmers."
@@ -26,8 +26,12 @@ const page = (props: Props) => {
         route={route}
         setActiveItem={setActiveItem}
       />
-      <About />
-      <Footer />
+      <div className="pt-24 py-10 px-52  ">
+        <About />
+      </div>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 };

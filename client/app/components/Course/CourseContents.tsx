@@ -1,3 +1,4 @@
+'use client'
 import { useGetCourseContentQuery } from '@/redux/feature/courses/courseApi'
 import React, { useState } from 'react'
 import Loader from '../Loader/Loader'
@@ -13,10 +14,12 @@ type Props = {
 
 const CourseContents = ({id,user}: Props) => {
     const {data:contentData,isLoading,refetch} = useGetCourseContentQuery(id,{refetchOnMountOrArgChange:true} ) 
+    console.log(contentData)
     const data = contentData?.content
     const [activeVideo,setActiveVideo] = useState(0);
     const [open,setOpen] = useState(false)
     const [route,setRoute] = useState("Login")
+
   return (
     <>
     {
@@ -25,7 +28,7 @@ const CourseContents = ({id,user}: Props) => {
         ): (
             <>
             <Header activeItem={1} setActiveItem={()=>{}}  open={open} setOpen={setOpen} route={route} setRoute={setRoute} />
-            <div className='w-full grid md:grid-cols-10'>
+            <div className='w-full grid md:grid-cols-10 dark:bg-gradient-to-b dark:from-gray-900 dark:to-black bg-gray-200'>
                 <Heading 
                     title={data[activeVideo]?.title}
                     description='Best Course'

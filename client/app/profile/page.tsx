@@ -16,13 +16,13 @@ type Props = {}
 const page: React.FC<Props> = () => {
 
     const [open, setOpen] = useState(false)
-    const [activeItem, setActiveItem] = useState(0)
+    const [activeItem, setActiveItem] = useState(8)
     const [route, setRoute] = useState("Login")
     const {user} = useSelector((state:any)=>state.auth)
 
     return (
         <>
-            <div className='h-screen w-full dark:bg-[#333] bg-white'>
+            <div className='min-h-screen w-full dark:bg-gradient-to-b dark:from-gray-900 dark:to-black bg-gray-200 '>
                 <Protected>
                     <Heading title={`${user.name}'s profile`} description='ElevateX is a platform for students to learn and get help from teacher' keyword='Programming,MERN,Redux,Machine Learning' />
                     <Header

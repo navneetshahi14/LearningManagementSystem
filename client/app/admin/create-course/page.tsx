@@ -4,6 +4,7 @@ import React from 'react'
 import Heading from '../../../app/utils/Heading'
 import AdminSidebar from '../../../app/components/Admin/Sidebar/AdminSidebar'
 import CreateCourse from '../../../app/components/Admin/CreateCourse'
+import DashboardHero from '@/app/components/Admin/DashboardHero'
 
 type Props = {}
 
@@ -20,7 +21,8 @@ const page = (props: Props) => {
                 <div className="2xl:w-[16%] w-1/5">
                     <AdminSidebar />
                 </div>
-                <div className="w-[80%]">
+                <div className="w-[80%] flex flex-col">
+                    <DashboardHero />
                     <CreateCourse />
                 </div>
             </div>

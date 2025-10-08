@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-import React from 'react'
+import React, { useState } from 'react'
 import Heading from '../../utils/Heading'
 import AdminSidebar from '../../components/Admin/Sidebar/AdminSidebar'
 import DashboardHeader from '@/app/components/Admin/DashboardHeader'
 import UserAnalytics from '@/app/components/Admin/Analytics/UserAnalytics'
+import DashboardHero from '@/app/components/Admin/DashboardHero'
 
 type Props = {}
 
 const page = (props: Props) => {
+    const [open,setOpen] = useState(false)
   return (
     <>
         <div className="bg-white dark:bg-slate-900 dark:text-white text-black ">
@@ -22,7 +24,7 @@ const page = (props: Props) => {
                     <AdminSidebar />
                 </div>
                 <div className="w-[80%]">
-                    <DashboardHeader />
+                    <DashboardHero />
                     <UserAnalytics /> 
                 </div>
             </div>

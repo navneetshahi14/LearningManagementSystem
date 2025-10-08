@@ -5,10 +5,12 @@ import Heading from '../../utils/Heading'
 import AdminSidebar from '../../components/Admin/Sidebar/AdminSidebar'
 import DashboardHeader from '@/app/components/Admin/DashboardHeader'
 import OrderAnalytics from '@/app/components/Admin/Analytics/OrderAnalytics'
+import DashboardHero from '@/app/components/Admin/DashboardHero'
 
 type Props = {}
 
 const page = (props: Props) => {
+
   return (
     <>
         <div className="bg-white dark:bg-slate-900 dark:text-white text-black ">
@@ -22,7 +24,7 @@ const page = (props: Props) => {
                     <AdminSidebar />
                 </div>
                 <div className="w-[80%]">
-                    <DashboardHeader />
+                    <DashboardHero />
                     <OrderAnalytics />
                 </div>
             </div>

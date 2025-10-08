@@ -134,7 +134,7 @@ const CourseContentMedia = ({
     }
     if (answerError) {
       if ("data" in answerError) {
-        const errorMessage = error as any;
+        const errorMessage = answerError as any;
         toast.error(errorMessage.data.message);
       }
     }
@@ -159,14 +159,14 @@ const CourseContentMedia = ({
 
     if (reviewError) {
       if ("data" in reviewError) {
-        const errorMessage = error as any;
+        const errorMessage = reviewError as any;
         toast.error(errorMessage.data.message);
       }
     }
 
     if (replyError) {
       if ("data" in replyError) {
-        const errorMessage = error as any;
+        const errorMessage = replyError as any;
         toast.error(errorMessage.data.message);
       }
     }
@@ -188,6 +188,8 @@ const CourseContentMedia = ({
     answerError,
     reviewSuccess,
     reviewError,
+    replySuccess,
+    replyError
   ]);
 
   const handleAnswerSubmit = () => {
@@ -426,7 +428,7 @@ const CourseContentMedia = ({
             <div className="w-full">
               {(course?.reviews && [...course.reviews].reverse()).map(
                 (item: any, index: number) => (
-                  <div className="w-full my-5 dark:text-white text-black">
+                  <div key={index} className="w-full my-5 dark:text-white text-black">
                     <div className="w-full flex">
                       <div>
                         <Image

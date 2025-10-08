@@ -14,7 +14,7 @@ type Props = {
 const CourseCard:FC<Props> = ({item,isProfile,user}) => {
   return (
     <Link href={!isProfile ? `/course/${item._id}`:`course-access/${item._id}`} >
-        <div className="w-full min-h-[35vh] dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] rounded-lg p-3 shadow-sm dark:shadow-inner ">
+        <div className="w-full min-h-[35vh] overflow-hidden dark:bg-slate-700 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] rounded-lg p-3 shadow-sm dark:shadow-inner ">
             <Image src={item.thumbnail.url} width={500} height={300} objectFit='contain' className='rounded-lg ' alt='' />
             <br />
             <h1 className="font-poppins text-[16px] text-black dark:text-[#fff] ">{item.name}</h1>

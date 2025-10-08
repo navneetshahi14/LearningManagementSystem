@@ -45,7 +45,8 @@ export const createOrder = CatchAsyncError(async(req:Request,res:Response,next:N
 
         const data:any = {
             courseId:course._id,
-            userId:user?._id
+            userId:user?._id,
+            payment_info
         }
         
 
@@ -60,16 +61,18 @@ export const createOrder = CatchAsyncError(async(req:Request,res:Response,next:N
 
         const html = await ejs.renderFile(path.join(__dirname,'../mails/order-confirmation.ejs'),{order:mailData})
 
+
         try{
             if(user){
                 await sendMail({
                     email:user.email,
                     subject:"Order Confirmation",
-                    template:"order-confirmation",
+                    template:"order-confirmation.ejs",
                     data:mailData
                 })
             }
         }catch(err:any){
+            console.log(err)
             return next(new Errorhandler(err.message,400))
         }
 
@@ -89,9 +92,15 @@ export const createOrder = CatchAsyncError(async(req:Request,res:Response,next:N
 
         await course.save()
 
-        newOrder(data,res,next)        
+        const order = newOrder(data,res,next)        
+
+        res.status(200).json({
+            success:true,
+            order
+        })
 
     }catch(err:any){
+        console.log("Errors:---> ",err)
         return next(new Errorhandler(err.message,400))
     }
 })
@@ -136,6 +145,7 @@ export const newPayment = CatchAsyncError(async(req:Request,res:Response,next:Ne
         })
 
     }catch(err:any){
+        console.log("newPayment error::=>",err.message)
         return next(new Errorhandler(err.message,500))
     }
 })

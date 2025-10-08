@@ -9,6 +9,7 @@ import {
     registrationUser,
     socialAuth,
     updateAccessToken,
+    updateAccessTokenController,
     updatePassword,
     updateProfile,
     updateUserInfo,
@@ -22,7 +23,7 @@ UserRouter.post("/activate-user", activateUser);
 
 UserRouter.post("/login", LoginUser);
 UserRouter.get("/logout", isAuthenticated, logoutUser);
-UserRouter.get("/refresh", updateAccessToken);
+UserRouter.get("/refresh", updateAccessTokenController);
 
 UserRouter.get("/me",updateAccessToken, isAuthenticated, getUserInfo);
 

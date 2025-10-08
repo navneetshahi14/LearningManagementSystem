@@ -27,7 +27,6 @@ const CoursePlayer: React.FC<Props> = ({ title,videoUrl }) => {
                     }
                 );
                 setVideoData(res.data);
-                console.log("OTP Response:", res.data);
             } catch (err: any) {
                 console.error("Error fetching video OTP:", err.response?.data || err.message);
             }

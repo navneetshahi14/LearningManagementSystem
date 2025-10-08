@@ -179,6 +179,52 @@ export const logoutUser = CatchAsyncError(async(req:Request ,res:Response, next:
     }
 })
 
+export const updateAccessTokenController = CatchAsyncError(async(req:Request,res:Response,next:NextFunction)=>{
+    try{
+
+        const refresh_token = req.cookies.refresh_token as string
+
+        const decoded = jwt.verify(refresh_token,process.env.REFRESH_TOKEN as string) as JwtPayload
+
+        const message = "Could not refresh token"
+        if(!decoded){
+            return next(new Errorhandler(message,400))
+        }
+
+        const session = await redis.get(decoded.id as string)
+
+
+        if(!session){
+            return next(new Errorhandler('Please login for access this resources.',400))
+        }
+
+        const user = JSON.parse(session)
+        const accessToken = jwt.sign({id:user._id},process.env.ACCESS_TOKEN as string,{
+            expiresIn:"5m"
+        })
+
+        const refreshToken = jwt.sign({id:user._id},process.env.REFRESH_TOKEN as string,{
+            expiresIn:'3d'
+        })
+
+        req.user = user
+
+        res.cookie('access_token',accessToken,accessTokenOption)
+        res.cookie('refresh_token',refreshToken,RefreshTokenOption)
+
+        await redis.set(user._id,JSON.stringify(user),'EX',604800)
+
+        res.status(200).json({
+            success:true,
+            accessToken
+        })
+
+    }catch(err:any){
+        return next(new Errorhandler(err.message,400))
+    }
+})
+
+
 export const updateAccessToken = CatchAsyncError(async(req:Request,res:Response,next:NextFunction)=>{
     try{
 
@@ -220,7 +266,6 @@ export const updateAccessToken = CatchAsyncError(async(req:Request,res:Response,
         return next(new Errorhandler(err.message,400))
     }
 })
-
 
 export const getUserInfo = CatchAsyncError(async(req:Request,res:Response,next:NextFunction)=>{
     try{

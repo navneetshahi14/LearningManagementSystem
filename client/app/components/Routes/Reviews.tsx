@@ -68,10 +68,10 @@ function Reviews({}: Props) {
         <div className="w-full md:flex items-center">
             <div className="md:w-[50%] w-full ">
                 <Image 
-                    src={require("../../../public/image1.png")}
+                    src={require("../../../public/image.png")}
                     alt={"business"}
-                    width={700}
-                    height={700}
+                    width={600}
+                    height={600}
                 />
             </div>
             <div className="md:w-[50%] w-full ">
@@ -87,7 +87,7 @@ function Reviews({}: Props) {
             <br />
             <br />
         </div>
-            <div className="grid grid-cols-1 gap-[25px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-2 lg:gap-[25px] xl:grid-cols-2 xl:gap-[35px] mb-12 border-0 md:[&>*:nth-child(6)]:!mt-[-40px] ">
+            <div className="grid grid-cols-1 gap-[25px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-2 lg:gap-[25px] xl:grid-cols-2 xl:gap-[35px] mb-12 border-0 md:[&>*:nth-child()]:!mt-[-40px] ">
                 {
                     reviews && 
                     reviews.map((i,index)=> <ReviewsCard item={i} key={index} />)

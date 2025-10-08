@@ -1,11 +1,13 @@
-'use client'
 import React from 'react'
 import CourseDetailsPage from '../../components/Course/CourseDetailsPage'
 
-const page = ({params}:any) => {
+const page = ({ params }: { params: Promise<{ id: string }> }) => {
+
+  const {id} = React.use(params)
+
   return (
-    <div>
-        <CourseDetailsPage id={params.id} />
+    <div className='dark:bg-gradient-to-b dark:from-gray-900 dark:to-black'>
+        <CourseDetailsPage id={id} />
     </div>
   )
 }

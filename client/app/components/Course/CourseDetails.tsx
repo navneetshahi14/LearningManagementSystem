@@ -22,19 +22,23 @@ type Props = {
 
 const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModal, setRoute }: Props) => {
   const { data: userdata } = useLoadUserQuery(undefined, {});
-  // const user = ;
+
   const [open, setOpen] = useState(false);
   const discountPercentage =
     ((data?.estimatedPrice - data.price) / data?.estimatedPrice) * 100;
 
   const [user,setUser] = useState<any>()
+
   useEffect(()=>{
     setUser(userdata?.user)
   },[userdata])
   const discountPercentagePrice = discountPercentage.toFixed(0);
 
   const isPurchased =
-    user && user?.courses?.find((item: any) => item._id === data._id);
+    user && user?.courses.find((item: any) => item.courseId === data._id);
+  console.log("Purchared:->",isPurchased)
+  console.log(user)
+  console.log(data)
 
   const handleOrder = (e: any) => {
     if(user){
@@ -47,7 +51,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModa
 
   return (
     <div>
-      <div className="w-[90%] md:w-[90%] m-auto py-5 ">
+      <div className="w-[90%] md:w-[90%] m-auto py-5 mt-20">
         <div className="w-full flex flex-col-reverse md:flex-row ">
           <div className="w-full md:w-[85%] md:pr-5 ">
             <h1 className="text-[25px] font-poppins font-[600] text-black dark:text-white ">
@@ -70,7 +74,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModa
               What you will learn from this course?
             </h1>
             <div>
-              {data.benefits?.map((item: any, index: number) => (
+              {data.benifits?.map((item: any, index: number) => (
                 <div className="w-full flex md:items-center py-2" key={index}>
                   <div className="w-[15px] mr-1">
                     <IoCheckmarkDoneOutline
@@ -218,12 +222,12 @@ const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModa
 
       <>
         {open && (
-          <div className="w-full h-screen bg-[#00000036] fixed top-0 left-0 z-50 flex items-center justify-center ">
-            <div className="w-[500px] min-h-[500px] bg-white rounded-xl shadow p-3 ">
+          <div className="w-full h-screen bg-[#00000036] fixed top-0 left-0 z-50 flex items-center justify-center overflow-hidden">
+            <div className="w-[500px] h-[500px] bg-white rounded-xl shadow p-3 overflow-auto">
               <div className="w-full flex justify-end">
                 <IoCloseOutline
                   size={40}
-                  className="text-black dark:text-white"
+                  className="text-white dark:text-black"
                   onClick={() => setOpen(false)}
                 />
               </div>

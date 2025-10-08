@@ -77,7 +77,7 @@ const EditCustomization = (props: Props) => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="mt-[120px] text-center ">
+        <div className="mt-[120px] text-center z-[1] ">
           <h1 className={`${styles.title}`}>All Categories</h1>
           {categories &&
             categories.map((item: any, index: number) => {

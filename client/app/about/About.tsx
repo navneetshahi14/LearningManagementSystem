@@ -1,14 +1,26 @@
-import React from 'react'
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 const About = (props: Props) => {
   return (
-    <div>
-        ElevateX
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus quam nesciunt, esse ratione quae ea beatae aperiam, eum illum praesentium natus, quis neque nemo similique ipsa consequuntur voluptatibus repellendus sunt temporibus alias officiis vero fugit? Illum explicabo molestiae quibusdam rem deserunt officia fugiat commodi! Quo hic veritatis eum at cumque, aperiam asperiores nemo officia! Odit ut consectetur atque recusandae, dolor debitis aut eaque quia quo quas nostrum quos odio vero id culpa. Quaerat, quisquam? Magnam eaque sint totam natus. Sunt iusto libero vitae harum aperiam, aut et voluptatem id neque recusandae amet iure, molestiae dicta incidunt, nostrum beatae velit! Sequi omnis est, consequuntur, officiis maxime illum sunt molestiae recusandae iusto numquam consequatur voluptatem quas ipsam nihil veritatis quibusdam temporibus? Consequuntur blanditiis magni, doloribus optio harum quod saepe natus, perspiciatis assumenda voluptatem deleniti consequatur minima laborum magnam dolor! Minus aspernatur doloribus, obcaecati deleniti voluptate praesentium corrupti deserunt rem et? Iure porro tenetur ratione consectetur reiciendis alias non recusandae molestiae. Impedit deleniti sunt alias. Minima tempore id dolores aut molestiae expedita, ad possimus excepturi neque exercitationem quae sed commodi officiis accusantium consectetur facilis quos nobis quod placeat, praesentium debitis pariatur delectus. Illum veritatis, incidunt fugiat autem dignissimos earum expedita veniam hic ad, provident impedit culpa. Incidunt mollitia quidem nulla voluptatum aperiam maiores distinctio dolorum, ea cupiditate suscipit in facere rerum dignissimos quia consequuntur, molestiae esse. Consectetur minus reiciendis maxime dolorem accusamus. Veritatis doloremque, tenetur doloribus, perferendis animi deleniti quae, commodi fuga dolorum consequuntur numquam recusandae necessitatibus ullam nesciunt. Maiores ullam exercitationem, tempore rerum, commodi libero maxime distinctio tenetur repudiandae id non officiis ex? Exercitationem porro odio deserunt voluptatum ipsa perspiciatis iste quae, vitae soluta sint debitis eveniet atque magni. Dolorem eius dolore rem pariatur labore tenetur, mollitia aut nesciunt voluptatibus dignissimos ipsam non consectetur? Maiores nisi illum sint velit debitis enim sapiente laboriosam doloremque vero, quo eos corporis molestias ullam officiis voluptatibus explicabo ex vitae aspernatur quas? Qui perferendis, ea harum aliquam labore minus corporis dolorum voluptate laborum magnam animi porro iure! Illum consequatur distinctio reiciendis dolorem ab voluptates minus mollitia cupiditate. Et vero sequi maxime amet laboriosam recusandae velit harum! Rem eligendi deserunt maiores pariatur omnis eveniet quidem accusantium odio ab atque magni earum eius voluptas architecto iste eos deleniti tempore, aliquam delectus. A et commodi magnam molestiae reiciendis minus hic corporis dolore soluta temporibus maiores sequi, pariatur eveniet eligendi, facere, laboriosam quo ex. Molestiae sed esse saepe facere rerum in voluptates dolor quod sint incidunt reiciendis molestias dignissimos consequuntur repellendus id, cum doloremque, ratione eveniet? Repellat impedit quisquam perspiciatis libero, hic qui ipsa nihil doloribus, totam perferendis asperiores neque provident, temporibus nulla. Fuga nihil in dolore nisi fugiat modi fugit! Quasi minus minima libero fugiat.</p>
+    <div className="flex flex-col gap-10">
+      <h1 className="text-center text-5xl uppercase text-gradient">ElevateX</h1>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab pariatur,
+        officia tempora rerum itaque tempore dignissimos temporibus molestiae
+        dolore commodi? Itaque, veniam officiis. Sapiente magni corrupti id
+        explicabo rem eligendi delectus sint illo consequatur rerum, nam nemo
+        nesciunt, veritatis at incidunt a soluta quod magnam omnis natus nostrum
+        eaque officiis dicta! Nemo, placeat aperiam necessitatibus officiis
+        doloribus voluptate, culpa fugiat aspernatur ipsam labore dicta ea ab
+        deserunt ex velit! Suscipit dolorum nisi hic dignissimos provident esse
+        voluptate doloremque, sapiente laborum soluta veniam iusto ducimus, quos
+        ad. Suscipit praesentium blanditiis, sequi voluptates ipsam dignissimos
+        itaque eum, reprehenderit earum non, vel dolorem!
+      </p>
     </div>
-  )
-}
+  );
+};
 
-export default About
+export default About;

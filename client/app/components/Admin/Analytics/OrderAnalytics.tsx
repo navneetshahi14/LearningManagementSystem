@@ -1,9 +1,20 @@
-'use client'
+"use client";
 import { useGetOrderAnalyticsQuery } from "@/redux/feature/analytics/analyticsApi";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "../../Loader/Loader";
 import { styles } from "@/app/styles/styles";
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { useGetAllCoursesQuery } from "@/redux/feature/courses/courseApi";
+import { useGetAllUsersQuery } from "@/redux/feature/user/userApi";
 
 // const analyticsData = [
 //   {
@@ -41,13 +52,38 @@ type Props = {
 };
 
 const OrderAnalytics = ({ isDashboard }: Props) => {
-  const { data,isLoading } = useGetOrderAnalyticsQuery({});
+  const { data, isLoading } = useGetOrderAnalyticsQuery({});
+  const { data: userData } = useGetAllUsersQuery({});
+  const { data: courseData } = useGetAllCoursesQuery({});
 
-  useEffect(() => {}, []);
+  const [orderData, setOrderData] = useState<any>([]);
+
+  useEffect(() => {
+    if (data) {
+      console.log(data)
+      const temp = data.order.last12Months.map((item: any) => {
+        const user = userData?.users.find(
+          (user: any) => user._id === item.userId
+        );
+
+        const course = courseData?.course.find(
+          (course: any) => course._id === item.courseId
+        );
+        return {
+          ...item,
+          userName: user?.name,
+          userEmail: user?.email,
+          title: course?.name,
+          price: "$" + course?.price,
+        };
+      });
+      setOrderData(temp);
+    }
+  }, [data, userData, courseData]);
 
   const analyticsData: any = [];
 
-  console.log(data)
+  console.log(data);
   data &&
     data.order.last12Months.forEach((item: any) => {
       analyticsData.push({ name: item.name, Count: item.Count });
@@ -57,7 +93,9 @@ const OrderAnalytics = ({ isDashboard }: Props) => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className={isDashboard ? "h-[30vh] ml-[50px]" : "h-screen ml-[50px] "}>
+        <div
+          className={isDashboard ? "h-[30vh] ml-[50px]" : "h-screen ml-[50px] "}
+        >
           <div
             className={isDashboard ? "mt-[0px] pl-[40px] mb-2 " : " mt-[50px] "}
           >
@@ -74,29 +112,33 @@ const OrderAnalytics = ({ isDashboard }: Props) => {
               </p>
             )}
           </div>
-          <div className={`w-full ${!isDashboard ? "h-[90vh]": "h-full"} flex items-center justify-center`}>
-            <ResponsiveContainer 
-                width={isDashboard ? "100%" : "90%"}
-                height={isDashboard ? "100%" : "50%"}
+          <div
+            className={`w-full ${
+              !isDashboard ? "h-[90vh]" : "h-full"
+            } flex items-center justify-center`}
+          >
+            <ResponsiveContainer
+              width={isDashboard ? "100%" : "90%"}
+              height={isDashboard ? "100%" : "50%"}
             >
-                <LineChart
-                    width={500}
-                    height={300}
-                    data={analyticsData}
-                    margin={{
-                        top:5,
-                        right:30,
-                        left:20,
-                        bottom:5
-                    }}
-                >
-                    <CartesianGrid strokeDasharray={"3 3"} />
-                    <XAxis dataKey={"name"} />
-                    <YAxis />
-                    <Tooltip />
-                    {!isDashboard && <Legend />}
-                    <Line type={"monotone"} dataKey={"Count"} stroke="#82ca9d" />
-                </LineChart>
+              <LineChart
+                width={500}
+                height={300}
+                data={analyticsData}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray={"3 3"} />
+                <XAxis dataKey={"name"} />
+                <YAxis />
+                <Tooltip />
+                {!isDashboard && <Legend />}
+                <Line type={"monotone"} dataKey={"Count"} stroke="#82ca9d" />
+              </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
