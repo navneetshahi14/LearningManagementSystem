@@ -34,11 +34,8 @@ const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModa
   },[userdata])
   const discountPercentagePrice = discountPercentage.toFixed(0);
 
-  const isPurchased =
-    user && user?.courses.find((item: any) => item.courseId === data._id);
+  const isPurchased = user && user?.courses.find((item: any) => item.courseId === data._id);
   console.log("Purchared:->",isPurchased)
-  console.log(user)
-  console.log(data)
 
   const handleOrder = (e: any) => {
     if(user){
