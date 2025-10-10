@@ -1,16 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import EditCustomization from '@/app/components/Admin/Customization/EditCustomization'
 import DashboardHero from '../../../app/components/Admin/DashboardHero'
 import AdminSidebar from '../../../app/components/Admin/Sidebar/AdminSidebar'
 import AdminProtected from '../../../app/hooks/adminProtected'
 import Heading from '../../../app/utils/Heading'
-import AllCourses from '../../components/Admin/Course/AllCourse'
 import React from 'react'
 
-type Props = unknown
 
-const page = (props: Props) => {
+const Page = () => {
   return (
     <div>
             <AdminProtected >
@@ -33,4 +30,4 @@ const page = (props: Props) => {
   )
 }
 
-export default page
+export default Page

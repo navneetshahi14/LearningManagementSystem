@@ -1,7 +1,7 @@
 
 import React from 'react'
-import Animation from '../../../../client/public/animation/loading.json'
-import Lottie from 'lottie-react'
+// import Animation from '../../../../client/public/animation/loading.json'
+// import Lottie from 'lottie-react'
 
 
 const Loader = () => {

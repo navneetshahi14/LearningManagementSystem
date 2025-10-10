@@ -5,17 +5,14 @@ import { redirect } from 'next/navigation';
 import React, { useEffect } from 'react'
 import CourseContents from '../../components/Course/CourseContents'
 
-type Props = {
-    params:any
-}
 
-const page = ({params}:  { params: Promise<{ id: string }> }) => {
+const Page = ({params}:  { params: Promise<{ id: string }> }) => {
     const {id} = React.use(params)
     const {isLoading,error,data} = useLoadUserQuery(undefined,{})
 
     useEffect(()=>{
         if(data){
-            const isPurchased = data.user.courses.find((item:any)=> item.courseId === id)
+            const isPurchased = data.user.courses.find((item:{courseId:string})=> item.courseId === id)
 
             if(!isPurchased){
                 redirect("/")
@@ -43,4 +40,4 @@ const page = ({params}:  { params: Promise<{ id: string }> }) => {
   )
 }
 
-export default page
+export default Page

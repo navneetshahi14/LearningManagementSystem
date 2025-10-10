@@ -1,12 +1,21 @@
 import React, { FC, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { MdOutlineOndemandVideo } from "react-icons/md";
+import { courseDataItem } from "./CourseCard";
 
 type Props = {
-  data: any;
+  data: courseDataItem[];
   activeVideo?: number;
-  setActiveVideo?: any;
+  setActiveVideo?: (index: number) => void;
   isDemo?: boolean;
+};
+
+export type VideoItem = {
+  _id: string;
+  title: string;
+  videoLength: number;
+  videoSection: string;
+  videoUrl?:string
 };
 
 const CourseContentList: FC<Props> = (props) => {
@@ -15,7 +24,7 @@ const CourseContentList: FC<Props> = (props) => {
   );
 
   const videoSections: string[] = [
-    ...new Set<string>(props.data?.map((item: any) => item.videoSection)),
+    ...new Set<string>(props.data?.map((item) => item.videoSection)),
   ];
 
   let totalCount: number = 0;
@@ -36,16 +45,16 @@ const CourseContentList: FC<Props> = (props) => {
         !props.isDemo && "ml-[-30px] sticky top-24 left-0 z-30 "
       }`}
     >
-      {videoSections.map((section: string, sectionIndex: number) => {
+      {videoSections.map((section: string) => {
         const isSectionVisible = visibleSections.has(section);
 
-        const sectionVideos: any[] = props.data.filter(
-          (item: any) => item.videoSection === section
+        const sectionVideos: courseDataItem[] = props.data.filter(
+          (item) => item.videoSection === section
         );
 
         const sectionVideoCount: number = sectionVideos.length;
         const sectionVideoLength: number = sectionVideos.reduce(
-          (totalLength: number, item: any) => totalLength + item.videoLength,
+          (totalLength, item) => totalLength + item.videoLength,
           0
         );
 
@@ -86,37 +95,40 @@ const CourseContentList: FC<Props> = (props) => {
             <br />
             {isSectionVisible && (
               <div className="w-full">
-                {
-                  sectionVideos.map((item:any, index: number)=> {
-                    const videoIndex: number = sectionStartIndex + index;
-                    const contentLength: number = item.videoLength / 60;
-                    return(
-                      <div className={`w-full ${
+                {sectionVideos.map((item, index) => {
+                  const videoIndex: number = sectionStartIndex + index;
+                  const contentLength: number = item.videoLength / 60;
+                  return (
+                    <div
+                      className={`w-full ${
                         videoIndex === props.activeVideo ? "bg-slate-800" : ""
                       } cursor-pointer transition-all p-2 `}
-                        key={item._id}
-                        onClick={()=> props.isDemo ? null : props?.setActiveVideo(videoIndex)}
-                      >
-                        <div className="flex items-start">
-                          <div>
-                            <MdOutlineOndemandVideo 
-                              size={25}
-                              className="mr-2"
-                              color="#1cdada"
-                            />
-                          </div>
-                          <h1 className="text-[18px] inline-block break-words text-black dark:text-white ">
-                            {item.title}
-                          </h1>
+                      key={item._id}
+                      onClick={() =>
+                        props.isDemo ? null : props.setActiveVideo?.(videoIndex)
+                      }
+                    >
+                      <div className="flex items-start">
+                        <div>
+                          <MdOutlineOndemandVideo
+                            size={25}
+                            className="mr-2"
+                            color="#1cdada"
+                          />
                         </div>
-                        <h5 className="pl-8 text-black dark:text-white">
-                          {item.videoLength > 60 ? contentLength.toFixed(2): item.videoLength}{" "}
-                          {item.videoLength > 60 ? "hours": "mintues"}
-                        </h5>
+                        <h1 className="text-[18px] inline-block break-words text-black dark:text-white ">
+                          {item.title}
+                        </h1>
                       </div>
-                    )
-                  })
-                }
+                      <h5 className="pl-8 text-black dark:text-white">
+                        {item.videoLength > 60
+                          ? contentLength.toFixed(2)
+                          : item.videoLength}{" "}
+                        {item.videoLength > 60 ? "hours" : "mintues"}
+                      </h5>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>

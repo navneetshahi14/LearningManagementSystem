@@ -16,39 +16,39 @@ import {
 import { useGetAllCoursesQuery } from "@/redux/feature/courses/courseApi";
 import { useGetAllUsersQuery } from "@/redux/feature/user/userApi";
 
-// const analyticsData = [
-//   {
-//     name: "Page A",
-//     Count: 4000,
-//   },
-//   {
-//     name: "Page B",
-//     Count: 3000,
-//   },
-//   {
-//     name: "Page C",
-//     Count: 5000,
-//   },
-//   {
-//     name: "Page D",
-//     Count: 1000,
-//   },
-//   {
-//     name: "Page E",
-//     Count: 4000,
-//   },
-//   {
-//     name: "Page F",
-//     Count: 800,
-//   },
-//   {
-//     name: "Page G",
-//     Count: 200,
-//   },
-// ];
-
 type Props = {
   isDashboard?: boolean;
+};
+
+type OrderAnalyticsItem = {
+  name?: string;
+  Count?: number;
+};
+
+type RawOrderItem = {
+  month: string;
+  count: number;
+  userId: string;
+  courseId: string;
+};
+
+type User = {
+  _id: string;
+  name: string;
+  email: string;
+};
+
+type Course = {
+  _id: string;
+  name: string;
+  price: number;
+};
+
+type EnrichedOrderItem = RawOrderItem & {
+  userName?: string;
+  userEmail?: string;
+  title?: string;
+  price?: string;
 };
 
 const OrderAnalytics = ({ isDashboard }: Props) => {
@@ -56,18 +56,19 @@ const OrderAnalytics = ({ isDashboard }: Props) => {
   const { data: userData } = useGetAllUsersQuery({});
   const { data: courseData } = useGetAllCoursesQuery({});
 
-  const [orderData, setOrderData] = useState<any>([]);
+  const [, setOrderData] = useState<EnrichedOrderItem[]>([]);
+
+console.log(data)
 
   useEffect(() => {
     if (data) {
-      console.log(data)
-      const temp = data.order.last12Months.map((item: any) => {
+      const temp = data.order.last12Months.map((item: RawOrderItem) => {
         const user = userData?.users.find(
-          (user: any) => user._id === item.userId
+          (user: User) => user._id === item.userId
         );
 
         const course = courseData?.course.find(
-          (course: any) => course._id === item.courseId
+          (course: Course) => course._id === item.courseId
         );
         return {
           ...item,
@@ -81,13 +82,16 @@ const OrderAnalytics = ({ isDashboard }: Props) => {
     }
   }, [data, userData, courseData]);
 
-  const analyticsData: any = [];
+  const analyticsData: OrderAnalyticsItem[] = [];
 
-  console.log(data);
-  data &&
-    data.order.last12Months.forEach((item: any) => {
-      analyticsData.push({ name: item.name, Count: item.Count });
+  if (data?.order?.last12Months) {
+    data.order.last12Months.forEach((item: RawOrderItem) => {
+      analyticsData.push({ name: item.month, Count: item.count });
     });
+  }
+
+  console.log(analyticsData)
+
   return (
     <>
       {isLoading ? (

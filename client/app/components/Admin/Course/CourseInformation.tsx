@@ -1,15 +1,31 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { styles } from "@/app/styles/styles";
 import { useGetHerodataQuery } from "@/redux/feature/layout/layout";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 type Props = {
-  courseInfo: any;
-  setCourseInfo: (courseInfo: any) => void;
+  courseInfo: CourseInfo;
+  setCourseInfo: (courseInfo: CourseInfo) => void;
   active: number;
   setActive: (active: number) => void;
+};
+
+export type CourseInfo = {
+  _id?: string;
+  name: string;
+  description: string;
+  price?: number | string;
+  estimatedPrice?: number | string;
+  tags: string;
+  categories: string;
+  level: string;
+  demoUrl: string;
+  thumbnail: string | null;
+};
+
+export type Category = {
+  _id: string;
+  title: string;
 };
 
 const CourseInformation: React.FC<Props> = ({
@@ -21,43 +37,45 @@ const CourseInformation: React.FC<Props> = ({
   const [dragging, setDragging] = useState(false);
   const { data } = useGetHerodataQuery("Categories", {});
 
-  const [categories,setCategories] = useState([])
+  const [categories, setCategories] = useState<Category[]>([]);
 
-  useEffect(()=>{
-    if(data){
-      setCategories(data.layout.categories);
+  useEffect(() => {
+    if (data) {
+      setCategories(data?.layout?.categories);
     }
-  })
+  }, [data]);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setActive(active + 1);
   };
 
-  const handleFileChange = (e: any) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e: any) => {
+      reader.onload = () => {
         if (reader.readyState) {
-          setCourseInfo({ ...courseInfo, thumbnail: reader.result });
+          if (typeof reader.result === "string") {
+            setCourseInfo({ ...courseInfo, thumbnail: reader.result });
+          }
         }
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleDragOver = (e: any) => {
+  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setDragging(true);
   };
 
-  const handleDragLeave = (e: any) => {
+  const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setDragging(false);
   };
 
-  const handleDrop = (e: any) => {
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setDragging(false);
 
@@ -66,7 +84,11 @@ const CourseInformation: React.FC<Props> = ({
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setCourseInfo({ ...courseInfo, thumbnail: reader.result });
+        if (reader.readyState) {
+          if (typeof reader.result === "string") {
+            setCourseInfo({ ...courseInfo, thumbnail: reader.result });
+          }
+        }
       };
 
       reader.readAsDataURL(file);
@@ -85,7 +107,7 @@ const CourseInformation: React.FC<Props> = ({
               id="name"
               required
               value={courseInfo.name}
-              onChange={(e: any) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setCourseInfo({ ...courseInfo, name: e.target.value })
               }
               placeholder="MERN stack LMS platform with next 15"
@@ -105,7 +127,7 @@ const CourseInformation: React.FC<Props> = ({
               placeholder="Write something amazing ......"
               className={`${styles.input} !h-min !py-2`}
               value={courseInfo.description}
-              onChange={(e: any) =>
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 setCourseInfo({ ...courseInfo, description: e.target.value })
               }
             ></textarea>
@@ -121,8 +143,8 @@ const CourseInformation: React.FC<Props> = ({
                 name=""
                 required
                 value={courseInfo.price}
-                onChange={(e: any) =>
-                  setCourseInfo({ ...courseInfo, price: e.target.value })
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setCourseInfo({ ...courseInfo, price: e?.target?.value })
                 }
                 id="price"
                 placeholder="29"
@@ -138,7 +160,7 @@ const CourseInformation: React.FC<Props> = ({
                 name=""
                 required
                 value={courseInfo.estimatedPrice}
-                onChange={(e: any) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setCourseInfo({
                     ...courseInfo,
                     estimatedPrice: e.target.value,
@@ -161,7 +183,7 @@ const CourseInformation: React.FC<Props> = ({
                 required
                 name=""
                 value={courseInfo.tags}
-                onChange={(e: any) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setCourseInfo({ ...courseInfo, tags: e.target.value })
                 }
                 id="tags"
@@ -173,13 +195,17 @@ const CourseInformation: React.FC<Props> = ({
               <label htmlFor="" className={`${styles.label}`}>
                 Course Categories
               </label>
-              <select name="" id=""
+              <select
+                name=""
+                id=""
                 className={`${styles.input}`}
                 value={courseInfo.categories}
-                onChange={(e:any)=> setCourseInfo({...courseInfo,categories:e.target.value})}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setCourseInfo({ ...courseInfo, categories: e.target.value })
+                }
               >
                 <option value="">Select Categories</option>
-                {categories.map((item: any) => (
+                {categories.map((item) => (
                   <option value={item._id} key={item._id}>
                     {item.title}
                   </option>
@@ -198,7 +224,7 @@ const CourseInformation: React.FC<Props> = ({
                 name=""
                 value={courseInfo.level}
                 required
-                onChange={(e: any) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setCourseInfo({ ...courseInfo, level: e.target.value })
                 }
                 id="level"
@@ -215,7 +241,7 @@ const CourseInformation: React.FC<Props> = ({
                 name=""
                 required
                 value={courseInfo.demoUrl}
-                onChange={(e: any) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setCourseInfo({ ...courseInfo, demoUrl: e.target.value })
                 }
                 id="demoUrl"
@@ -243,7 +269,7 @@ const CourseInformation: React.FC<Props> = ({
               onDrop={handleDrop}
             >
               {courseInfo.thumbnail ? (
-                <img
+                <Image
                   src={courseInfo.thumbnail}
                   alt=""
                   className="max-h-full w-full object-cover"

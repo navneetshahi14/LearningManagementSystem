@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import DashboardHero from '../../../app/components/Admin/DashboardHero'
 import AdminSidebar from '../../../app/components/Admin/Sidebar/AdminSidebar'
@@ -7,9 +6,8 @@ import Heading from '../../../app/utils/Heading'
 import AllUsers from '../../components/Admin/Users/AllUsers'
 import React from 'react'
 
-type Props = unknown
 
-const page = (props: Props) => {
+const Page = () => {
   return (
     <div>
             <AdminProtected >
@@ -32,4 +30,4 @@ const page = (props: Props) => {
   )
 }
 
-export default page
+export default Page

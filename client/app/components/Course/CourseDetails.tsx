@@ -4,40 +4,49 @@ import Rating from "@/app/utils/Rating";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { IoCheckmarkDoneOutline, IoCloseOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
 import { format } from "timeago.js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckOutForm from "../Payment/CheckOutForm";
 import { useLoadUserQuery } from "@/redux/feature/api/apiSlice";
 import Image from "next/image";
 import CourseContentList from "./CourseContentList";
+import { CourseItem, userItem } from "./CourseCard";
+import {Stripe} from '@stripe/stripe-js'
 
 type Props = {
-  data: any;
+  data: CourseItem;
   clientSecret: string;
-  stripePromise: any;
-  setOpen:any;
-  setRoute:any;
+  stripePromise: Promise<Stripe | null>;
+  setOpen:(open:boolean)=>void;
+  setRoute:(route:string)=>void;
 };
+
+
+
 
 const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModal, setRoute }: Props) => {
   const { data: userdata } = useLoadUserQuery(undefined, {});
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const discountPercentage =
-    ((data?.estimatedPrice - data.price) / data?.estimatedPrice) * 100;
+    (((data?.estimatedPrice || 0) - (data.price || 0)) / (data?.estimatedPrice || 0)) * 100;
 
-  const [user,setUser] = useState<any>()
+  const [user,setUser] = useState<userItem | null>(null)
 
   useEffect(()=>{
     setUser(userdata?.user)
   },[userdata])
   const discountPercentagePrice = discountPercentage.toFixed(0);
 
-  const isPurchased = user && user?.courses.find((item: any) => item.courseId === data._id);
+  console.log(data)
+  console.log(user)
+  console.log(userdata)
+
+
+  const isPurchased = user && user?.courses.find((item) => item.courseId === data._id);
   console.log("Purchared:->",isPurchased)
 
-  const handleOrder = (e: any) => {
+  const handleOrder = () => {
     if(user){
       setOpen(true);
     }else{
@@ -56,7 +65,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModa
             </h1>
             <div className="flex items-center justify-between pt-3 ">
               <div className="flex items-center ">
-                <Rating rating={data.ratings} />
+                <Rating rating={data.ratings || 0} />
                 <h5 className="text-black dark:text-white">
                   {data.reviews?.length}
                 </h5>
@@ -71,7 +80,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModa
               What you will learn from this course?
             </h1>
             <div>
-              {data.benifits?.map((item: any, index: number) => (
+              {data.benifits?.map((item, index) => (
                 <div className="w-full flex md:items-center py-2" key={index}>
                   <div className="w-[15px] mr-1">
                     <IoCheckmarkDoneOutline
@@ -90,7 +99,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModa
             <h1 className="text-[25px] font-poppins font-[600] text-black dark:text-white ">
               What are the Prerequisites for starting this course?
             </h1>
-            {data.prerequisites?.map((item: any, index: number) => (
+            {data.prerequisites?.map((item, index) => (
               <div className="w-full flex md:items-center py-2" key={index}>
                 <div className="w-[15px] mr-1">
                   <IoCheckmarkDoneOutline
@@ -108,7 +117,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModa
                 Course Overview
               </h1>
               {/* Course Content list */}
-              <CourseContentList data={data?.courseData} isDemo={true}  />
+              <CourseContentList data={data?.courseData || []} isDemo={true}  />
             </div>
             <br />
             <br />
@@ -124,18 +133,18 @@ const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModa
             <br />
             <div className="w-full">
               <div className="md:flex items-center">
-                <Rating rating={data?.rating} />
+                <Rating rating={data?.ratings || 0 } />
                 <div className="mb-2 md:mb-[unset]">
                   <h5 className="text-[25px] font-poppins text-black dark:text-white">
                     {Number.isInteger(data?.ratings)
-                      ? data?.ratings.toFixed(1)
-                      : data?.ratings.toFixed(2)}{" "}
+                      ? (data?.ratings || 0).toFixed(1)
+                      : (data?.ratings || 0).toFixed(2)}{" "}
                     Course Rating 🔹 {data?.reviews?.length} Reviews
                   </h5>
                 </div>
                 <br />
                 {(data?.reviews && [...data.reviews].reverse()).map(
-                  (item: any, index: number) => (
+                  (item, index) => (
                     <div className="w-full pb-4" key={index}>
                       <div className="flex">
                         <div className="w-[50px] h-[50px] ">
@@ -153,12 +162,12 @@ const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModa
                             />
                           </div>
                         </div>
-                        <div className="hidden md:bolck pl-2">
+                        <div className="hidden md:block pl-2">
                           <div className="flex items-center">
                             <h5 className="text-[18px] pr-2 text-black dark:text-white ">
                               {item.user.name}
                             </h5>
-                            <Rating rating={item.Rating} />
+                            <Rating rating={item.rating} />
                           </div>
                           <p className="text-black dark:text-white ">
                             {item.comment}
@@ -183,7 +192,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise, setOpen:openAuthModa
 
           <div className="w-full md:w-[35%] relative">
             <div className="sticky top-[100px] left-0 z-50 w-full ">
-              <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} />
+              <CoursePlayer videoUrl={data?.demoUrl || ""} title={data?.name} />
               <div className="flex items-center">
                 <h1 className="pt-5 text-[25px] text-black dark:text-white">
                   {data.price === 0 ? "Free" : data.price + "$"}

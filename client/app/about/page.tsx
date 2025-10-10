@@ -5,12 +5,11 @@ import Header from "../components/Header";
 import About from './About'
 import Footer from "../components/Routes/Footer";
 
-type Props = {};
 
-const page = (props: Props) => {
-  const [open, setOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState(2);
-  const [route, setRoute] = useState("Login");
+const Page = () => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [activeItem, setActiveItem] = useState<number>(2);
+  const [route, setRoute] = useState<string>("Login");
   return (
     <div className="dark:bg-gradient-to-b dark:from-gray-900 dark:to-black bg-gray-200 min-h-screen flex flex-col justify-between">
       <Heading
@@ -36,4 +35,4 @@ const page = (props: Props) => {
   );
 };
 
-export default page;
+export default Page;

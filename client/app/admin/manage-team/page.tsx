@@ -1,16 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import AllUsers from '@/app/components/Admin/Users/AllUsers'
 import DashboardHero from '../../components/Admin/DashboardHero'
 import AdminSidebar from '../../components/Admin/Sidebar/AdminSidebar'
 import AdminProtected from '../../hooks/adminProtected'
 import Heading from '../../utils/Heading'
-// import ManageTeams from '../../components/Admin/Team/ManageTeams'
 import React from 'react'
 
-type Props = unknown
 
-const page = (props: Props) => {
+const Page = () => {
   return (
     <div className='min-h-screen h-auto'>
             <AdminProtected >
@@ -33,4 +30,4 @@ const page = (props: Props) => {
   )
 }
 
-export default page
+export default Page

@@ -13,7 +13,7 @@ import Footer from '../components/Routes/Footer'
 
 type Props = {}
 
-const page: React.FC<Props> = () => {
+const Page: React.FC<Props> = () => {
 
     const [open, setOpen] = useState(false)
     const [activeItem, setActiveItem] = useState(8)
@@ -41,4 +41,4 @@ const page: React.FC<Props> = () => {
     )
 }
 
-export default page
+export default Page

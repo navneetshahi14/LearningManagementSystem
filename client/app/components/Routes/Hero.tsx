@@ -1,14 +1,15 @@
 import { useGetHerodataQuery } from "@/redux/feature/layout/layout";
 import Image from "next/image";
 import Link from "next/link";
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import Loader from "../Loader/Loader";
 import { useRouter } from "next/navigation";
+import image1 from '../../../public/image1.png'
+import user from '../../../public/user.png'
 
-type Props = {};
 
-const Hero: FC<Props> = (props) => {
+const Hero = () => {
   const { data, isLoading } = useGetHerodataQuery("Banner", {});
   const [search,setSearch] = useState("")
   const router = useRouter()
@@ -30,7 +31,7 @@ const Hero: FC<Props> = (props) => {
           <div className="absolute top-[100px] left-[50%] -translate-x-[50%]  lg:top-[82px] 2xl:top-[100px] lg:left-0 lg:-translate-x-0 2xl:h-[550px] 2xl:w-[550px] lg:h-[500px] lg:w-[500px] h-[45vh] w-[65vw] hero_animation rounded-full flex  items-center lg:ml-15 lg:mt-5 scale-[1.1] 2xl:scale-[1.02]"></div>
           <div className="lg:w-[50%] flex lg:min-h-screen items-center justify-center pt-[100px] lg:pt-[0] z-10 xl:ml-15">
             <Image
-              src={data?.layout?.banner?.image?.url || require('../../../public/image1.png')}
+              src={data?.layout?.banner?.image?.url || image1}
               width={400}
               height={400}
               alt="hello"
@@ -67,17 +68,17 @@ const Hero: FC<Props> = (props) => {
             <br />
             <div className="2xl:w-[55%] lg:w-[85%] w-[90%] flex items-center ">
               <Image
-                src={require("@/public/user.png")}
+                src={user}
                 alt="hello"
                 className="h-[30px] w-[30px] rounded-full  "
               />
               <Image
-                src={require("@/public/user.png")}
+                src={user}
                 alt="hello"
                 className="h-[30px] w-[30px] rounded-full ml-[-15px] "
               />
               <Image
-                src={require("@/public/user.png")}
+                src={user}
                 alt="hello"
                 className="h-[30px] w-[30px] rounded-full ml-[-15px] "
               />

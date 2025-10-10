@@ -1,8 +1,7 @@
 import React from "react";
 
-type Props = {};
 
-const About = (props: Props) => {
+const About = () => {
   return (
     <div className="flex flex-col gap-10">
       <h1 className="text-center text-5xl uppercase text-gradient">ElevateX</h1>

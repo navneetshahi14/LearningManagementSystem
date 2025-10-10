@@ -3,12 +3,15 @@ import { useGetHerodataQuery } from '@/redux/feature/layout/layout'
 import React, { useEffect, useState } from 'react'
 import { HiMinus, HiPlus } from 'react-icons/hi'
 
-type Props = {}
-
-const FAQ = (props: Props) => {
+type questionItem = {
+    _id:string
+    question:string
+    answer:string
+}
+const FAQ = () => {
     const { data } = useGetHerodataQuery("FAQ",{})
-    const [activeQuestion,setActiveQuestion] = useState(null)
-    const [questions,setQuestions] = useState<any[]>([])
+    const [activeQuestion,setActiveQuestion] = useState<string | null>(null)
+    const [questions,setQuestions] = useState<questionItem[]>([])
 
     useEffect(()=>{
         if(data){
@@ -16,7 +19,7 @@ const FAQ = (props: Props) => {
         }
     },[data])
 
-    const toggleQuestion = (id: any) => {
+    const toggleQuestion = (id: string) => {
         setActiveQuestion(activeQuestion === id ? null : id);
     }
 
@@ -28,7 +31,7 @@ const FAQ = (props: Props) => {
             </h1>
             <div className="mt-12">
                 <dl className="space-y-8">
-                    {questions.map((q:any,index:number)=>(
+                    {questions.map((q,index)=>(
                         <div key={index} className={`${
                             q._id !== questions[0]?._id && "border-t"
                         } border-gray-600 pt-6`}>

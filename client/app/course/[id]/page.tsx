@@ -1,7 +1,7 @@
 import React from 'react'
 import CourseDetailsPage from '../../components/Course/CourseDetailsPage'
 
-const page = ({ params }: { params: Promise<{ id: string }> }) => {
+const Page = ({ params }: { params: Promise<{ id: string }> }) => {
 
   const {id} = React.use(params)
 
@@ -12,4 +12,4 @@ const page = ({ params }: { params: Promise<{ id: string }> }) => {
   )
 }
 
-export default page
+export default Page

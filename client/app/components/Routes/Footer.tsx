@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import React from 'react'
 
-type Props = {}
 
-const Footer = (props: Props) => {
+const Footer = () => {
   return (
     <footer>
         <div className="border border-[#0000000e] dark:border-[#ffffff1e] " />

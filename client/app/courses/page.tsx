@@ -7,20 +7,19 @@ import Loader from "../components/Loader/Loader";
 import Header from "../components/Header";
 import Heading from "../utils/Heading";
 import { styles } from "../styles/styles";
-import CourseCard from "../components/Course/CourseCard";
+import CourseCard, { CourseItem } from "../components/Course/CourseCard";
 import Footer from "../components/Routes/Footer";
 
-type Props = {};
 
-const page = (props: Props) => {
+const Page = () => {
   const searchParams = useSearchParams();
   const search = searchParams?.get("title");
   const { data, isLoading } = useGetUserAllCourseQuery(undefined, {});
   const { data: categoriesData } = useGetHerodataQuery("Categories", {});
-  const [route, setRoute] = useState("Login");
-  const [open, setOpen] = useState(false);
-  const [courses, setCourses] = useState([]);
-  const [category, setCategory] = useState("All");
+  const [route, setRoute] = useState<string>("Login");
+  const [open, setOpen] = useState<boolean>(false);
+  const [courses, setCourses] = useState<CourseItem[]>([]);
+  const [category, setCategory] = useState<string>("All");
 
   useEffect(() => {
     if (category === "All") {
@@ -28,20 +27,20 @@ const page = (props: Props) => {
     }
     if (category !== "All") {
       setCourses(
-        data?.course.filter((item: any) => item.categories === category)
+        data?.course.filter((item:{categories:string}) => item.categories === category)
       );
     }
 
     if (search) {
       setCourses(
-        data?.course.filter((item: any) =>
+        data?.course.filter((item:CourseItem) =>
           item.name.toLowerCase().includes(search.toLowerCase())
         )
       );
     }
   }, [data, category, search]);
 
-  const categories = categoriesData?.layout.categories;
+  const categories:{title:string}[] = categoriesData?.layout.categories;
 
   return (
     <div className="dark:bg-gradient-to-b dark:from-gray-900 dark:to-black">
@@ -76,7 +75,7 @@ const page = (props: Props) => {
                 All
               </div>
               {categories &&
-                categories.map((item: any, index: number) => (
+                categories.map((item, index) => (
                   <div key={index} className={``}>
                     <div
                       className={`h-[35px] ${
@@ -104,7 +103,7 @@ const page = (props: Props) => {
             <br />
             <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] 2xl:grid-cols-4 2xl:gap-[35px] mb-5">
               {courses &&
-                courses.map((item: any, index: number) => (
+                courses.map((item, index) => (
                   <CourseCard item={item} key={index} />
                 ))}
             </div>
@@ -116,4 +115,4 @@ const page = (props: Props) => {
   );
 };
 
-export default page;
+export default Page;

@@ -1,14 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-empty-object-type */
 import React from 'react'
 import Heading from '../../../app/utils/Heading'
 import AdminSidebar from '../../../app/components/Admin/Sidebar/AdminSidebar'
 import CreateCourse from '../../../app/components/Admin/CreateCourse'
 import DashboardHero from '@/app/components/Admin/DashboardHero'
 
-type Props = {}
 
-const page = (props: Props) => {
+const Page = () => {
   return (
     <>
         <div className="bg-white dark:bg-slate-900 dark:text-white text-black ">
@@ -31,4 +28,4 @@ const page = (props: Props) => {
   )
 }
 
-export default page
+export default Page

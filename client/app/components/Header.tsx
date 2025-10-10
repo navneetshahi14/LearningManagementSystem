@@ -9,7 +9,6 @@ import CustomModel from "../utils/CustomModel";
 import Login from "../../app/components/auth/Login";
 import SignUp from "./auth/SignUp";
 import Verification from "./auth/Verification";
-import { useSelector } from "react-redux";
 import Image from "next/image";
 import avatar from "../../../client/public/user.png";
 import { useSession } from "next-auth/react";
@@ -39,14 +38,13 @@ const Header: FC<Props> = ({
 }) => {
   const [active, setActive] = useState(true);
   const [openSidebar, setOpenSidebar] = useState(false);
-  //   const { user } = useSelector((state: any) => state.auth);
   const {
     data: userData,
     isLoading,
     refetch,
   } = useLoadUserQuery(undefined, {});
   const { data } = useSession();
-  const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
+  const [socialAuth, { isSuccess }] = useSocialAuthMutation();
   const [logout, setLogout] = useState(false);
   const {} = useLogOutQuery(undefined, {
     skip: !logout ? true : false,

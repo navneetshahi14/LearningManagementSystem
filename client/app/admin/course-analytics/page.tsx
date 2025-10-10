@@ -2,13 +2,10 @@
 import React from 'react'
 import Heading from '../../utils/Heading'
 import AdminSidebar from '../../components/Admin/Sidebar/AdminSidebar'
-import DashboardHeader from '@/app/components/Admin/DashboardHeader'
 import CourseAnalytics from '@/app/components/Admin/Analytics/CourseAnalytics'
 import DashboardHero from '@/app/components/Admin/DashboardHero'
 
-type Props = {}
-
-const page = (props: Props) => {
+const Page = () => {
   return (
     <>
         <div className="bg-white dark:bg-slate-900 dark:text-white text-black ">
@@ -31,4 +28,4 @@ const page = (props: Props) => {
   )
 }
 
-export default page
+export default Page

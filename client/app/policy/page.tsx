@@ -5,9 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Routes/Footer";
 import Policy from "./Policy";
 
-type Props = {};
-
-const page = (props: Props) => {
+const Page = () => {
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(3);
   const [route, setRoute] = useState("Login");
@@ -36,4 +34,4 @@ const page = (props: Props) => {
   );
 };
 
-export default page;
+export default Page;

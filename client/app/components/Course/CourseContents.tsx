@@ -6,15 +6,15 @@ import Heading from '@/app/utils/Heading'
 import CourseContentMedia from './CourseContentMedia'
 import Header from '../Header'
 import CourseContentList from './CourseContentList'
+import { userItem } from './CourseCard'
 
 type Props = {
     id:string
-    user:any
+    user:userItem
 }
 
 const CourseContents = ({id,user}: Props) => {
     const {data:contentData,isLoading,refetch} = useGetCourseContentQuery(id,{refetchOnMountOrArgChange:true} ) 
-    console.log(contentData)
     const data = contentData?.content
     const [activeVideo,setActiveVideo] = useState(0);
     const [open,setOpen] = useState(false)

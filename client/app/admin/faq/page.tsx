@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-empty-object-type */
+
 'use client'
 import React from 'react'
 import Heading from '../../utils/Heading'
@@ -8,9 +7,8 @@ import AdminProtected from '../../hooks/adminProtected'
 import DashboardHero from '../../components/Admin/DashboardHero'
 import EditFaq from '@/app/components/Admin/Customization/EditFaq'
 
-type Props = {}
 
-const page = (props: Props) => {
+const Page = () => {
   return (
     <div>
         <AdminProtected >
@@ -33,4 +31,4 @@ const page = (props: Props) => {
   )
 }
 
-export default page
+export default Page

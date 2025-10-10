@@ -1,17 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-empty-object-type */
 import EditCourse from '@/app/components/Admin/Course/EditCourse'
-import DashboardHeader from '@/app/components/Admin/DashboardHeader'
 import DashboardHero from '@/app/components/Admin/DashboardHero'
 import AdminSidebar from '@/app/components/Admin/Sidebar/AdminSidebar'
 import Heading from '@/app/utils/Heading'
 import React from 'react'
 
-type Props = {}
 
-const page = ({params}:any) => {
-    const id = params?.id;
+
+const Page = ({params}: { params: Promise<{ id: string }> }) => {
+    const {id} = React.use(params)
 
   return (
     <>
@@ -36,4 +32,4 @@ const page = ({params}:any) => {
   )
 }
 
-export default page
+export default Page

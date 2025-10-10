@@ -83,8 +83,6 @@ export const editCourse = CatchAsyncError(async (req: Request, res: Response, ne
 
 export const getSingleCourse = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     try {
-
-
         const courseId = req.params.id
 
         const isRedisExist = await redis.get(courseId)
@@ -106,9 +104,6 @@ export const getSingleCourse = CatchAsyncError(async (req: Request, res: Respons
                 course
             })
         }
-
-
-
     } catch (err: any) {
         return next(new Errorhandler(err.message, 400))
     }

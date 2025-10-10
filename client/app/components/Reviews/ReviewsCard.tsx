@@ -3,8 +3,16 @@ import Image from 'next/image'
 import React from 'react'
 
 type Props = {
-    item:any
+    item:ReviewsItem
 }
+
+type ReviewsItem = {
+        name:string
+        avatar:string,
+        profession:string,
+        comment:string
+        professtion?:string
+    }
 
 const ReviewsCard = ({item}: Props) => {
   return (

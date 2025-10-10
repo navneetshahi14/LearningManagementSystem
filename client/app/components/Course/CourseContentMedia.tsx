@@ -20,20 +20,46 @@ import {
 import { BiMessage } from "react-icons/bi";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import { format } from "timeago.js";
-import socketIO from 'socket.io-client'
+import socketIO from "socket.io-client";
+import {  CourseItem, userItem } from "./CourseCard";
 const ENDPOINT = process.env.NEXT_PUBLIC_SERVER_URI || "";
-const socketId = socketIO(ENDPOINT,{transports:['websocket']})
-
-
+const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 type Props = {
-  data: any;
+  data: VideoItem[];
   id: string;
   activeVideo: number;
   setActiveVideo: (activeVideo: number) => void;
-  user: any;
-  refetch: any;
+  user: userItem;
+  refetch: () => void;
 };
+
+type VideoItem = {
+  _id: string;
+  title: string;
+  videoUrl: string;
+  description: string;
+  links: [
+    {
+      title: string;
+      url: string;
+    }
+  ];
+  suggestion:string
+  questions:questionItem[]
+};
+
+type questionItem = {
+  _id:string
+  user:userItem
+  question:string
+  questionReplies:{
+    user:userItem,
+    createdAt:Date,
+    answer:string
+  }[]
+  createdAt:Date
+}
 
 const CourseContentMedia = ({
   data,
@@ -43,22 +69,22 @@ const CourseContentMedia = ({
   refetch,
   user,
 }: Props) => {
-  const [activeBar, setactiveBar] = useState(0);
-  const [question, setQuestion] = useState("");
-  const [reviews, setReviews] = useState("");
-  const [rating, setRating] = useState(1);
-  const [isReviewReply, setIsReviewReply] = useState(false);
-  const [reply, setReply] = useState("");
+  const [activeBar, setactiveBar] = useState<number>(0);
+  const [question, setQuestion] = useState<string>("");
+  const [reviews, setReviews] = useState<string>("");
+  const [rating, setRating] = useState<number>(1);
+  const [isReviewReply, setIsReviewReply] = useState<boolean>(false);
+  const [reply, setReply] = useState<string>("");
 
-  const [reviewId, setReviewId] = useState("");
+  const [reviewId, setReviewId] = useState<string>("");
 
-  const [
+  const [                               
     addNewQuestion,
     { isSuccess, error, isLoading: questionCreationLoading },
   ] = useAddNewQuestionMutation({});
 
-  const [answer, setAnswer] = useState("");
-  const [questionId, setQuestionId] = useState("");
+  const [answer, setAnswer] = useState<string>("");
+  const [questionId, setQuestionId] = useState<string>("");
 
   const [
     addAnswerInQuestion,
@@ -82,7 +108,7 @@ const CourseContentMedia = ({
     id,
     { refetchOnMountOrArgChange: true }
   );
-  const course = courseData?.course;
+  const course : CourseItem  = courseData?.course;
 
   const [
     addReplyInReview,
@@ -94,7 +120,7 @@ const CourseContentMedia = ({
   ] = useAddReplyInReviewMutation();
 
   const isReviewExists = course?.reviews?.find(
-    (item: any) => item.user._id === user._id
+    (item) => item.user._id === user._id
   );
 
   const handleQuestion = () => {
@@ -114,34 +140,34 @@ const CourseContentMedia = ({
       setQuestion("");
       refetch();
       toast.success("Question added successfully");
-      socketId.emit("notification",{
-        title:"New Question Received",
-        message:`You have a new question in ${data[activeVideo].title}`,
-        userId:user._id
-      })
+      socketId.emit("notification", {
+        title: "New Question Received",
+        message: `You have a new question in ${data[activeVideo].title}`,
+        userId: user._id,
+      });
     }
     if (answerSuccess) {
       setAnswer("");
       refetch();
       toast.success("Answer added successfully");
-      if(user.role !== "admin"){
-        socketId.emit("notification",{
-        title:"New Reply Received",
-        message:`You have a new question reply in ${data[activeVideo].title}`,
-        userId:user._id
-      })
+      if (user.role !== "admin") {
+        socketId.emit("notification", {
+          title: "New Reply Received",
+          message: `You have a new question reply in ${data[activeVideo].title}`,
+          userId: user._id,
+        });
       }
     }
     if (answerError) {
       if ("data" in answerError) {
-        const errorMessage = answerError as any;
-        toast.error(errorMessage.data.message);
+        const errorMessage = answerError as { data?: { message?: string } };
+        toast.error(errorMessage?.data?.message || "Something went wrong");
       }
     }
     if (error) {
       if ("data" in error) {
-        const errorMessage = error as any;
-        toast.error(errorMessage.data.message);
+        const errorMessage = error as { data?: { message?: string } };
+        toast.error(errorMessage?.data?.message || "Something went wrong");
       }
     }
 
@@ -150,24 +176,24 @@ const CourseContentMedia = ({
       setRating(1);
       courseRefetch();
       toast.success("Review added successfully");
-      socketId.emit("notification",{
-        title:"New Question",
-        message:`You have a new question in ${data[activeVideo].title}`,
-        userId:user._id
-      })
+      socketId.emit("notification", {
+        title: "New Question",
+        message: `You have a new question in ${data[activeVideo].title}`,
+        userId: user._id,
+      });
     }
 
     if (reviewError) {
       if ("data" in reviewError) {
-        const errorMessage = reviewError as any;
-        toast.error(errorMessage.data.message);
+        const errorMessage = reviewError as { data?: { message?: string } };
+        toast.error(errorMessage?.data?.message || "Something went wrong");
       }
     }
 
     if (replyError) {
       if ("data" in replyError) {
-        const errorMessage = replyError as any;
-        toast.error(errorMessage.data.message);
+        const errorMessage = replyError as { data?: { message?: string } };
+        toast.error(errorMessage?.data?.message || "Something went wrong");
       }
     }
 
@@ -175,11 +201,11 @@ const CourseContentMedia = ({
       setReply("");
       courseRefetch();
       toast.success("Reply added successfully");
-      socketId.emit("notification",{
-        title:"New Question",
-        message:`You have a new question in ${data[activeVideo].title}`,
-        userId:user._id
-      })
+      socketId.emit("notification", {
+        title: "New Question",
+        message: `You have a new question in ${data[activeVideo].title}`,
+        userId: user._id,
+      });
     }
   }, [
     isSuccess,
@@ -189,7 +215,7 @@ const CourseContentMedia = ({
     reviewSuccess,
     reviewError,
     replySuccess,
-    replyError
+    replyError,
   ]);
 
   const handleAnswerSubmit = () => {
@@ -282,7 +308,7 @@ const CourseContentMedia = ({
 
       {activeBar === 1 && (
         <div>
-          {data[activeVideo]?.links.map((item: any, index: number) => (
+          {data[activeVideo]?.links.map((item, index) => (
             <div className="mb-5" key={index}>
               <h2 className="md:text-[20px] md:inline-block dark:text-white text-black">
                 {item.title && item.title + " :"}
@@ -341,11 +367,11 @@ const CourseContentMedia = ({
           <div>
             <CommentReply
               data={data}
+              questionId={questionId}
               activeVideo={activeVideo}
               answer={answer}
               setAnswer={setAnswer}
               handleAnswerSubmit={handleAnswerSubmit}
-              user={user}
               setQuestionId={setQuestionId}
               answerCreationLoading={answerCreationLoading}
             />
@@ -427,8 +453,11 @@ const CourseContentMedia = ({
             <div className="w-full h-[1px] bg-[#ffffff3b]  "></div>
             <div className="w-full">
               {(course?.reviews && [...course.reviews].reverse()).map(
-                (item: any, index: number) => (
-                  <div key={index} className="w-full my-5 dark:text-white text-black">
+                (item, index) => (
+                  <div
+                    key={index}
+                    className="w-full my-5 dark:text-white text-black"
+                  >
                     <div className="w-full flex">
                       <div>
                         <Image
@@ -470,7 +499,7 @@ const CourseContentMedia = ({
                           name=""
                           id=""
                           value={reply}
-                          onChange={(e: any) => setReply(e.target.value)}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setReply(e.target.value)}
                           placeholder="Enter your reply..."
                           className={`${styles.input} !border-[0px] rounded-none w-[90%] ml-[3%] !border-b border-[#000] dark:border-[#fff] `}
                         />
@@ -484,8 +513,8 @@ const CourseContentMedia = ({
                       </div>
                     )}
 
-                    {item.commentReplies.map((i: any, index: number) => (
-                      <div className="w-full flex md:ml-16 my-5">
+                    {item.commentReplies.map((i, index) => (
+                      <div key={index} className="w-full flex md:ml-16 my-5">
                         <div className="w-[50px] h-[50px] ">
                           <div>
                             <Image
@@ -526,24 +555,36 @@ const CourseContentMedia = ({
   );
 };
 
+type CommentReplyItems ={
+  data:VideoItem[]
+  activeVideo:number
+  answer:string
+  setAnswer:(answer:string)=>void
+  handleAnswerSubmit:()=>void
+  setQuestionId:(questionId:string)=>void
+  answerCreationLoading:boolean
+  questionId:string
+
+}
+
 const CommentReply = ({
   data,
   activeVideo,
   answer,
   setAnswer,
   handleAnswerSubmit,
-  user,
   setQuestionId,
   answerCreationLoading,
-}: any) => {
+  questionId
+}: CommentReplyItems) => {
   return (
     <>
       <div className="w-full my-3">
-        {data[activeVideo].questions.map((item: any, index: any) => (
+        {data[activeVideo].questions.map((item, index) => (
           <CommentItem
             key={index}
-            data={data}
-            activeVideo={activeVideo}
+            // activeVideo={activeVideo}
+            questionId={questionId}
             item={item}
             index={index}
             answer={answer}
@@ -558,9 +599,18 @@ const CommentReply = ({
   );
 };
 
+type commentitemsreply = {
+  item:questionItem
+  answer:string
+  setAnswer:(answer:string) => void
+  questionId:string
+  setQuestionId:(questionId:string)=>void
+  handleAnswerSubmit : ()=>void
+  answerCreationLoading:boolean
+  index:number
+}
+
 const CommentItem = ({
-  data,
-  activeVideo,
   item,
   answer,
   setAnswer,
@@ -568,19 +618,13 @@ const CommentItem = ({
   setQuestionId,
   handleAnswerSubmit,
   answerCreationLoading,
-}: any) => {
+  index
+}: commentitemsreply) => {
   const [replyActive, setReplyActive] = useState(false);
   return (
     <>
-      <div className="my-4">
+      <div key={index} className="my-4">
         <div className="flex mb-2">
-          {/* <div className="w-[50px] h-[50px]">
-            <div className="w-[50px] h-[50px] bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer ">
-              <h1 className="uppercase text-[18px]">
-                {item?.user.name.slice(0,2)}
-              </h1>
-            </div>
-          </div> */}
           <div>
             <Image
               src={
@@ -596,7 +640,7 @@ const CommentItem = ({
           </div>
           <div className="pl-3 dark:text-white text-black">
             <h5 className="text-[20px]">{item?.user.name}</h5>
-            <p className="">{item?.question}</p>
+            <p className="">{item.question}</p>
             <small className="text-[#000000b8] dark:text-[#ffffff83]">
               {!item.createdAt ? "" : format(item?.createdAt)}
             </small>
@@ -627,8 +671,8 @@ const CommentItem = ({
         </div>
         {replyActive && questionId === item._id && (
           <>
-            {item.questionReplies.map((item: any, index: any) => (
-              <div className="w-full flex md:ml-16 my-5 text-black dark:text-white">
+            {item.questionReplies.map((item, index) => (
+              <div key={index} className="w-full flex md:ml-16 my-5 text-black dark:text-white">
                 <div>
                   <Image
                     src={
@@ -662,7 +706,7 @@ const CommentItem = ({
                   type="text"
                   placeholder="Enter your answer..."
                   value={answer}
-                  onChange={(e: any) => setAnswer(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAnswer(e.target.value)}
                   className={`block md:ml-12 mt-2 outline-none bg-transparent border-b border-[#00000027] dark:text-white text-black dark:border-[#fff] p-[5px] w-[95%] ${
                     answer === "" || (answerCreationLoading && "cursor-no-drop")
                   }`}

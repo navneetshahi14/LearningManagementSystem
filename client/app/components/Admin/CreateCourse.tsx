@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
-import CourseInformation from "../../../app/components/Admin/Course/CourseInformation";
+import CourseInformation, { CourseInfo } from "../../../app/components/Admin/Course/CourseInformation";
 import CourseOptions from "../../../app/components/Admin/Course/CourseOptions";
 import CourseData from "./CourseData";
 import CourseContent from "./CourseContent";
@@ -38,12 +38,12 @@ const CreateCourse = (props: Props) => {
   },[isLoading,isSuccess,error])
 
   const [active, setActive] = useState(0);
-  const [courseInfo, setCourseInfo] = useState({
+  const [courseInfo, setCourseInfo] = useState<CourseInfo>({
     name: "",
     description: "",
     categories:"",
-    price: "",
-    estimatedPrice: "",
+    price: parseInt(""),
+    estimatedPrice: parseInt(""),
     tags: "",
     level: "",
     demoUrl: "",

@@ -1,16 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { FC, useEffect, useState } from "react";
-import CourseInformation from "../../../../app/components/Admin/Course/CourseInformation";
+import CourseInformation, { CourseInfo } from "../../../../app/components/Admin/Course/CourseInformation";
 import CourseOptions from "../../../../app/components/Admin/Course/CourseOptions";
 import CourseData from "../CourseData";
 import CourseContent from "../CourseContent";
 import CoursePreview from "../CoursePreview";
-import DashboardHeader from "../DashboardHeader";
-import { useCreateCourseMutation, useEditCourseMutation, useGetAllCoursesQuery } from "@/redux/feature/courses/courseApi";
+import { useEditCourseMutation, useGetAllCoursesQuery } from "@/redux/feature/courses/courseApi";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
+import DashboardHero from "../DashboardHero";
 
 type Props = {
     id:string;
@@ -18,12 +16,10 @@ type Props = {
 
 const EditCourse:FC<Props> = ({id}) => {
 
-//   const [createCourse,{isLoading,isSuccess,error}] = useCreateCourseMutation()
-  const { isLoading, data,refetch } = useGetAllCoursesQuery({},{refetchOnMountOrArgChange:true})
+  const { data } = useGetAllCoursesQuery({},{refetchOnMountOrArgChange:true})
   const [editCourse,{isSuccess,error}] = useEditCourseMutation({})
-  const editCourseData = data && data.course.find((i:any) => i._id === id)
+  const editCourseData = data && data.course.find((i:CourseInfo) => i._id === id)
 
-  console.log(editCourseData)
 
   useEffect(()=>{
     if(isSuccess){
@@ -32,7 +28,7 @@ const EditCourse:FC<Props> = ({id}) => {
     }
     if(error){
       if("data" in error){
-        const errormessage = error as any
+        const errormessage = error as {data:{message:string}}
   
         toast.error(errormessage.data.message)
   
@@ -53,6 +49,7 @@ useEffect(()=>{
             level: editCourseData.level,
             demoUrl: editCourseData.demoUrl,
             thumbnail: editCourseData?.thumbnail?.url,
+            categories: editCourseData?.categories
         })
         setbenifits(editCourseData.benifits)
         setPrerequisites(editCourseData.prerequisites)
@@ -61,7 +58,7 @@ useEffect(()=>{
 },[editCourseData])
 
   const [active, setActive] = useState(0);
-  const [courseInfo, setCourseInfo] = useState({
+  const [courseInfo, setCourseInfo] = useState<CourseInfo>({
     name: "",
     description: "",
     price: "",
@@ -70,6 +67,7 @@ useEffect(()=>{
     level: "",
     demoUrl: "",
     thumbnail: "",
+    categories: ""
   });
 
   const [benifits, setbenifits] = useState([{ title: "" }]);
@@ -133,14 +131,14 @@ useEffect(()=>{
     setCourseData(data);
   };
 
-  const handleCourseCreate = async (e:any) =>{
+  const handleCourseCreate = async () =>{
     const data = courseData
     await editCourse({id:editCourseData._id,data})
   }
 
   return (
     <div className="w-full flex min-h-screen">
-      <DashboardHeader />
+      <DashboardHero />
       <div className="w-[80%]">
         {active === 0 && (
           <CourseInformation

@@ -1,8 +1,6 @@
 import React from "react";
 
-type Props = {};
-
-const Policy = (props: Props) => {
+const Policy = () => {
   return (
     <div className="flex flex-col gap-10">
       <h1 className="text-center text-5xl uppercase text-gradient">

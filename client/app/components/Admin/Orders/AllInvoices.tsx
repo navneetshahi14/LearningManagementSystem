@@ -6,30 +6,59 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { format } from "timeago.js";
 import Loader from "../../Loader/Loader";
-import { Box, Toolbar } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { Box } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 
 type Props = {
   isDashboard?: boolean;
 };
 
+type Order = {
+  _id: string;
+  userId: string;
+  courseId: string;
+  createdAt: string;
+};
+
+type User = {
+  _id: string;
+  name: string;
+  email: string;
+};
+
+type Course = {
+  _id: string;
+  name: string;
+  price: number;
+};
+
+type InvoiceRow = {
+  id:string
+  _id: string;
+  userName?: string;
+  userEmail?: string;
+  title?: string;
+  price?: string;
+  createdAt: string;
+};
+
 const AllInvoices = ({ isDashboard }: Props) => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const { isLoading, data } = useGetAllOrdersQuery({});
   const { data: userData } = useGetAllUsersQuery({});
   const { data: courseData } = useGetAllCoursesQuery({});
 
-  const [orderData, setOrderData] = useState<any>([]);
+  const [orderData, setOrderData] = useState<InvoiceRow[]>([]);
 
   useEffect(() => {
     if (data) {
-      const temp = data.order.map((item: any) => {
+      const temp: InvoiceRow[] = data.order.map((item: Order) => {
         const user = userData?.users.find(
-          (user: any) => user._id === item.userId
+          (user: User) => user._id === item.userId
         );
 
         const course = courseData?.course.find(
-          (course: any) => course._id === item.courseId
+          (course: Course) => course._id === item.courseId
         );
         return {
           ...item,
@@ -41,10 +70,9 @@ const AllInvoices = ({ isDashboard }: Props) => {
       });
       setOrderData(temp);
     }
-
   }, [data, userData, courseData]);
 
-  const columns: any = [
+  const columns = [
     { field: "id", headerName: "ID", flex: 0.3 },
     { field: "userName", headerName: "Name", flex: isDashboard ? 0.6 : 0.5 },
     ...(isDashboard
@@ -61,9 +89,12 @@ const AllInvoices = ({ isDashboard }: Props) => {
             field: " ",
             headerName: "Email",
             flex: 0.2,
-            renderCell: (params: any) => {
+            renderCell: (params: { row: InvoiceRow }) => {
               return (
-                <a className="h-full py-auto flex items-center justify-center" href={`mailto:${params.row.userEmail}`}>
+                <a
+                  className="h-full py-auto flex items-center justify-center"
+                  href={`mailto:${params.row.userEmail}`}
+                >
                   <AiOutlineMail
                     className="dark:text-white text-black"
                     size={20}
@@ -75,21 +106,23 @@ const AllInvoices = ({ isDashboard }: Props) => {
         ]),
   ];
 
-  const rows: any = [];
+  const rows: InvoiceRow[] = [];
 
-  orderData &&
-    orderData.forEach((item: any) => {
+  if (orderData) {
+    orderData.forEach((item) => {
       rows.push({
         id: item._id,
+        _id: item._id,
         userName: item.userName,
         userEmail: item.userEmail,
         title: item.title,
         price: item.price,
-        created_at: format(item.createdAt),
+        createdAt: format(item?.createdAt),
       });
     });
+  }
   return (
-    <div className={!isDashboard ? "mt-[120px]" : "mt-[0px]"}>
+    <div className={!isDashboard ? "mt-[0px]" : "mt-[10px]"}>
       {isLoading ? (
         <Loader />
       ) : (

@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import React, { FC, JSX, useEffect, useState } from 'react'
 import avatarDefault from '../../../../public/user.png'
 import Image from 'next/image'
 import { BiHome, BiSolidBookContent, BiSolidCategory } from 'react-icons/bi'
-import { FaCog, FaFileInvoice, FaQuestionCircle, FaTv, FaUsers, FaVideo } from 'react-icons/fa'
-import { IoTvSharp } from "react-icons/io5";
+import { FaFileInvoice, FaQuestionCircle, FaTv, FaUsers, FaVideo } from 'react-icons/fa'
 import { Typography, IconButton, Box } from '@mui/material'
 import { MenuItem, Menu, ProSidebar } from 'react-pro-sidebar'
 import "react-pro-sidebar/dist/css/styles.css"

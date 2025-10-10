@@ -2,8 +2,7 @@ import { styles } from '@/app/styles/styles'
 import Image from 'next/image'
 import React from 'react'
 import ReviewsCard from '../Reviews/ReviewsCard'
-
-type Props = {}
+import image from "../../../public/image.png"
 
 export const reviews = [
     {
@@ -62,13 +61,13 @@ export const reviews = [
     },
 ]
 
-function Reviews({}: Props) {
+function Reviews() {
   return (
     <div className="w-[90%] md:w-[85%] m-auto ">
         <div className="w-full md:flex items-center">
             <div className="md:w-[50%] w-full ">
                 <Image 
-                    src={require("../../../public/image.png")}
+                    src={image}
                     alt={"business"}
                     width={600}
                     height={600}

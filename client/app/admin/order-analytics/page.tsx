@@ -1,15 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-empty-object-type */
 import React from 'react'
 import Heading from '../../utils/Heading'
 import AdminSidebar from '../../components/Admin/Sidebar/AdminSidebar'
-import DashboardHeader from '@/app/components/Admin/DashboardHeader'
 import OrderAnalytics from '@/app/components/Admin/Analytics/OrderAnalytics'
 import DashboardHero from '@/app/components/Admin/DashboardHero'
 
-type Props = {}
 
-const page = (props: Props) => {
+const Page = () => {
 
   return (
     <>
@@ -33,4 +29,4 @@ const page = (props: Props) => {
   )
 }
 
-export default page
+export default Page

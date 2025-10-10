@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { styles } from "@/app/styles/styles";
 import {
   useEditLayoutMutation,
@@ -11,15 +10,20 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import toast from "react-hot-toast";
 import Loader from "../../Loader/Loader";
 
-type Props = unknown;
+type FaqItem = {
+  _id?: string;
+  question: string;
+  answer: string;
+  active?: boolean;
+};
 
-const EditFaq = (props: Props) => {
+const EditFaq = () => {
   const { data, isLoading } = useGetHerodataQuery("FAQ", {
     refetchOnMountOrArgChange: true,
   });
   const [editLayout, { isSuccess, error }] = useEditLayoutMutation();
 
-  const [question, setQuestion] = useState<any[]>([]);
+  const [question, setQuestion] = useState<FaqItem[]>([]);
 
   useEffect(() => {
     if (data) {
@@ -30,25 +34,25 @@ const EditFaq = (props: Props) => {
     }
     if (error) {
       if ("data" in error) {
-        const errorData = error as any;
-        toast.error(errorData?.data?.message);
+        const errorData = error as { data?: { message?: string } };
+        toast.error(errorData?.data?.message || "Something went wrong");
       }
     }
   }, [data, isSuccess, error]);
 
-  const toggleQuesion = (id: any) => {
+  const toggleQuesion = (id: string | undefined) => {
     setQuestion((prevQuestion) =>
       prevQuestion.map((q) => (q._id === id ? { ...q, active: !q.active } : q))
     );
   };
 
-  const handleQuestionChange = (id: any, value: string) => {
+  const handleQuestionChange = (id: string | undefined, value: string) => {
     setQuestion((prevQuestion) =>
       prevQuestion.map((q) => (q._id === id ? { ...q, question: value } : q))
     );
   };
 
-  const handleAnswerChange = (id: any, value: string) => {
+  const handleAnswerChange = (id: string | undefined, value: string) => {
     setQuestion((prevQuestion) =>
       prevQuestion.map((q) => (q._id === id ? { ...q, answer: value } : q))
     );
@@ -65,18 +69,17 @@ const EditFaq = (props: Props) => {
   };
 
   const areQuestionsUnchanged = (
-    originalQuestion: any[],
-    newQuestion: any[]
+    originalQuestion: FaqItem[],
+    newQuestion: FaqItem[]
   ) => {
     return JSON.stringify(originalQuestion) === JSON.stringify(newQuestion);
   };
 
-  const isAnyQuestionEmpty = (questions: any[]) => {
-    return question.some((q) => q.question === "" || q.answer === "");
+  const isAnyQuestionEmpty = (questions: FaqItem[]) => {
+    return questions.some((q) => q.question === "" || q.answer === "");
   };
 
   const handleEdit = async () => {
-    // console.log("hhghskjdhflkajshdflkjdshflkjadsflkh")
     if (
       !areQuestionsUnchanged(data.layout.faq, question) &&
       !isAnyQuestionEmpty(question)
@@ -97,11 +100,11 @@ const EditFaq = (props: Props) => {
           <div className="mt-12">
             <dl className="space-y-8">
               {question?.length > 0 ? (
-                question.map((q: any) => (
+                question.map((q) => (
                   <div
                     key={q._id}
                     className={`${
-                      q._id !== question[0]?.id && "border-t"
+                      q._id !== question[0]?._id && "border-t"
                     } border-gray-200 p-6`}
                   >
                     <dt className="text-lg">
@@ -113,7 +116,7 @@ const EditFaq = (props: Props) => {
                           type="text"
                           className={`${styles.input} border-none`}
                           value={q.question}
-                          onChange={(e: any) =>
+                          onChange={(e) =>
                             handleQuestionChange(q._id, e.target.value)
                           }
                           placeholder={"Add your questions...."}
@@ -133,7 +136,7 @@ const EditFaq = (props: Props) => {
                         <input
                           className={`${styles.input} border-none`}
                           value={q.answer}
-                          onChange={(e: any) =>
+                          onChange={(e) =>
                             handleAnswerChange(q._id, e.target.value)
                           }
                           placeholder={"Add your answer..."}

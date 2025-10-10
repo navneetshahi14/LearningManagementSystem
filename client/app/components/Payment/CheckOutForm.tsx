@@ -11,26 +11,27 @@ import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import socketIO from 'socket.io-client'
+import { CourseItem, userItem } from "../Course/CourseCard";
 const ENDPOINT = process.env.NEXT_PUBLIC_SERVER_URI || "";
 const socketId = socketIO(ENDPOINT,{transports:['websocket']})
 
 
 type Props = {
-  setOpen: any;
-  data: any;
-  user: any;
+  setOpen: (open:boolean)=>void;
+  data: CourseItem;
+  user: userItem | null;
 };
 
-const CheckOutForm = ({ setOpen, data, user }: Props) => {
+const CheckOutForm = ({ data, user }: Props) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [message, setMessage] = useState<any>("");
+  const [message, setMessage] = useState<string>("");
   const [createOrder, { data: orderData, error }] = useCreateOrderMutation();
   const [loadUser, setLoadUser] = useState(false);
   const {} = useLoadUserQuery({ skip: loadUser ? false : true });
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!stripe || !elements) {
       return;
@@ -42,7 +43,7 @@ const CheckOutForm = ({ setOpen, data, user }: Props) => {
     });
     
     if (error) {
-      setMessage(error.message);
+      setMessage(error.message || "");
       setIsLoading(false);
       console.log(error)
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
@@ -58,14 +59,14 @@ const CheckOutForm = ({ setOpen, data, user }: Props) => {
         socketId.emit("notification",{
           title:"New Order",
           message:`You have a new Order from ${data.name}`,
-          userId:user._id
+          userId:user?._id
         })
         redirect(`/course-access/${data._id}`)
     }
     if(error){
         if("data" in error){
-            const errorMessage = error as any;
-            toast.error(errorMessage.data.message)
+            const errorMessage = error as {data:{message:string}};
+            toast.error(errorMessage.data.message || "Something went wrong")
         }
     }
   },[orderData,error])

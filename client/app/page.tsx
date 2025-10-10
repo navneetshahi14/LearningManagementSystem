@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
 'use client'
-import React, { FC, useState } from 'react'
+import React, { useState } from 'react'
 import Heading from './utils/Heading'
 import Header from './components/Header'
 import Hero from './components/Routes/Hero'
@@ -9,9 +8,8 @@ import Reviews from './components/Routes/Reviews'
 import FAQ from './components/Routes/FAQ'
 import Footer from './components/Routes/Footer'
 
-interface Props { }
 
-const Page: FC<Props> = () => {
+const Page = () => {
   const [open,setOpen] = useState(false)
   const [activeItem,setActiveItem] = useState(0)
   const [route,setRoute] = useState("Login")

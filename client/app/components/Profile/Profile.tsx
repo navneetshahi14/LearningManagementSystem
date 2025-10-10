@@ -8,18 +8,18 @@ import { redirect } from "next/navigation";
 import { signOut } from "next-auth/react";
 import ProfileInfo from "./ProfileInfo";
 import ChangePassword from "./ChangePassword";
-import CourseCard from "../Course/CourseCard";
+import CourseCard, { courseDataItem, userItem } from "../Course/CourseCard";
 import { useGetUserAllCourseQuery } from "@/redux/feature/courses/courseApi";
 
 type Props = {
-  user: any;
+  user: userItem;
 };
 
 const Profile: FC<Props> = ({ user }) => {
   const [scroll, setScroll] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [logout, setLogout] = useState(false);
-  const [course, setCourse] = useState([]);
+  const [course, setCourse] = useState<courseDataItem[]>([]);
   const {} = useLogOutQuery(undefined, {
     skip: !logout ? true : false,
   });
@@ -44,12 +44,11 @@ const Profile: FC<Props> = ({ user }) => {
 
   useEffect(() => {
     if (data) {
-      const filteredCourses = user.courses
-        .map((userCourse: any) =>
-          data.course.find((courses: any) => courses._id === userCourse.courseId)
+      const filteredCourses:courseDataItem[] = user.courses
+        .map((userCourse) =>
+          data.course.find((courses: courseDataItem) => courses._id === userCourse.courseId)
         )
-        .filter((courses: any) => courses !== undefined);
-        console.log(user.courses)
+        .filter((courses: courseDataItem) => courses !== undefined);
       setCourse(filteredCourses);
     }
   }, [data]);
@@ -94,7 +93,7 @@ const Profile: FC<Props> = ({ user }) => {
           </div>
           {course.length === 0 && (
             <h1 className="text-center font-poppins text-[18px]">
-              You don't have any purchased courses
+              You don&apos;t have any purchased courses
             </h1>
           )}
         </div>

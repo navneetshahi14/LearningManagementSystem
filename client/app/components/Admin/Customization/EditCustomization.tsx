@@ -9,15 +9,18 @@ import { styles } from "@/app/styles/styles";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import toast from "react-hot-toast";
 
-type Props = {};
+type Category = {
+  _id?: string;
+  title: string;
+};
 
-const EditCustomization = (props: Props) => {
+const EditCustomization = () => {
   const { data, isLoading, refetch } = useGetHerodataQuery("Categories", {
     refetchOnMountOrArgChange: true,
   });
   const [editLayout, { isSuccess: layoutSuccess, error }] =
     useEditLayoutMutation();
-  const [categories, setCategories] = useState<any>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     if (data) {
@@ -29,34 +32,34 @@ const EditCustomization = (props: Props) => {
     }
     if (error) {
       if ("data" in error) {
-        const errorData = error as any;
-        toast.error(errorData?.data?.message);
+        const errorData = error as { data?: { message?: string } };
+        toast.error(errorData?.data?.message || "Something went wrong");
       }
     }
   }, [data, layoutSuccess, error]);
 
-  const handleCategoriesAdd = (id: any, value: string) => {
-    setCategories((prevCategory: any) =>
-      prevCategory.map((i: any) => (i._id === id ? { ...i, title: value } : i))
+  const handleCategoriesAdd = (id: string | undefined, value: string) => {
+    setCategories((prevCategory:Category[]) =>
+      prevCategory.map((i) => (i._id === id ? { ...i, title: value } : i))
     );
   };
 
   const newCategoriesHandler = () => {
-    if (categories[categories?.length - 1].title === "") {
+    if (categories[categories.length - 1].title === "") {
       toast.error("Category title cannot be empty");
     } else {
-      setCategories((prevCategory: any) => [...prevCategory, { title: "" }]);
+      setCategories((prevCategory: Category[]) => [...prevCategory, { title: "" }]);
     }
   };
 
   const areCategoriesUnchanged = (
-    originalCategories: any[],
-    newCategories: any[]
+    originalCategories: Category[],
+    newCategories: Category[]
   ) => {
     return JSON.stringify(originalCategories) === JSON.stringify(newCategories);
   };
 
-  const isAnyCategoryTitleEmpty = (categories: any[]) => {
+  const isAnyCategoryTitleEmpty = (categories: Category[]) => {
     return categories.some((q) => q.title === "");
   };
 
@@ -80,9 +83,9 @@ const EditCustomization = (props: Props) => {
         <div className="mt-[120px] text-center z-[1] ">
           <h1 className={`${styles.title}`}>All Categories</h1>
           {categories &&
-            categories.map((item: any, index: number) => {
+            categories.map((item, index) => {
               return (
-                <div className="p-3">
+                <div className="p-3" key={index}>
                   <div className="flex items-center w-full justify-center">
                     <input
                       className={`${styles.input} !w-[unset] !border-none !text-[20px] `}

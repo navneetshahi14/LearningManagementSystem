@@ -3,13 +3,12 @@ import { useChangePasswordMutation } from '@/redux/feature/user/userApi'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
-type Props = {}
 
-const ChangePassword = (props: Props) => {
+const ChangePassword = () => {
 
-    const [oldPassword,setOldPassword] = useState("")
-    const [newPassword,setNewPassword] = useState("")
-    const [confirmPassword,setConfirmPassword] = useState("")
+    const [oldPassword,setOldPassword] = useState<string>("")
+    const [newPassword,setNewPassword] = useState<string>("")
+    const [confirmPassword,setConfirmPassword] = useState<string>("")
     const [changePassword,{isSuccess,error}] = useChangePasswordMutation()
 
     useEffect(()=>{
@@ -21,7 +20,7 @@ const ChangePassword = (props: Props) => {
         }
     },[isSuccess,error])
 
-    const passwordChangehandler = async(e:any)=>{
+    const passwordChangehandler = async(e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
         if(newPassword === confirmPassword){
             await changePassword({

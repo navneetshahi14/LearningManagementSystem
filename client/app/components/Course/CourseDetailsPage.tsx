@@ -10,7 +10,7 @@ import {
   useCreatePaymentIntentMutation,
   useGetStripePublichableKeyQuery,
 } from "@/redux/feature/orders/ordersApi";
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe,Stripe } from "@stripe/stripe-js";
 
 type Props = {
   id: string;
@@ -25,7 +25,7 @@ const CourseDetailsPage = ({ id }: Props) => {
   const [createPaymentIntent, { data: paymentIntentData }] =
     useCreatePaymentIntentMutation();
 
-  const [stripePromise, setStripePromise] = useState<any>(null);
+  const [stripePromise, setStripePromise] = useState<Promise<Stripe | null>>();
   const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const CourseDetailsPage = ({ id }: Props) => {
             setRoute={setRoute}
             open={open}
             setOpen={setOpen}
-            activeItem={2}
+            activeItem={1}
             setActiveItem={() => {}}
           />
           {stripePromise && (

@@ -13,8 +13,18 @@ const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 type Props = {
   open?: boolean;
-  setOpen?: any;
+  setOpen: (open:boolean)=>void;
 };
+
+type NotificationItem = {
+  _id: string;
+  title: string;
+  message: string;
+  status: string;
+  createdAt: string;
+};
+
+
 
 const DashboardHeader: React.FC<Props> = ({ open, setOpen }) => {
   const { data, refetch } = useGetAllNotificationQuery(undefined, {
@@ -24,17 +34,17 @@ const DashboardHeader: React.FC<Props> = ({ open, setOpen }) => {
   const [updateNotificationStatus, { isSuccess }] =
     useUpdateNotificationStatusMutation();
 
-  const [notification, setNotification] = useState<any>([]);
-  const [audio] = useState(new Audio(""));
+  const [notification, setNotification] = useState<NotificationItem[]>([]);
+  // const [audio] = useState(new Audio(""));
 
-  const playerNotificationSound = () => {
-    audio.play();
-  };
+  // const playerNotificationSound = () => {
+  //   audio.play();
+  // };
 
   useEffect(() => {
     if (data) {
       setNotification(
-        data.notification.filter((item: any) => item.status === "unread")
+        data.notification.filter((item: NotificationItem) => item.status === "unread")
       );
     }
 
@@ -45,6 +55,7 @@ const DashboardHeader: React.FC<Props> = ({ open, setOpen }) => {
 
   useEffect(() => {
     socketId.on("newNotification", (data) => {
+      console.log(data)
       refetch();
       // playerNotificationSound();
     });
@@ -73,8 +84,8 @@ const DashboardHeader: React.FC<Props> = ({ open, setOpen }) => {
               Notification
             </h5>
             {notification &&
-              notification.map((item: any, index: number) => (
-                <div className="dark:bg-[#2d3a4ea1] bg-[#00000013] font-poppins border-b dark:border-b-[#ffffff47] border-b-[#0000000f] ">
+              notification.map((item, index) => (
+                <div key={index} className="dark:bg-[#2d3a4ea1] bg-[#00000013] font-poppins border-b dark:border-b-[#ffffff47] border-b-[#0000000f] ">
                   <div className="w-full flex items-center justify-between p-2 ">
                     <p className="text-black dark:text-white">{item.title}</p>
                     <p
