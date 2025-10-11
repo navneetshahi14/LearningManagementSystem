@@ -44,6 +44,6 @@
     "typescript": "^5.8.2"
   },
   "devDependencies": {
-    "@types/nodemailer": "^6.4.17"
+    "@types/nodemailer": "^6.4.20"
   }
 }
