@@ -120,7 +120,7 @@ const AllCourses: FC<Props> = () => {
   };
 
   return (
-    <div className="mt-[120px] z-[1]">
+    <div className=" z-[1]">
       <Box m="20px" paddingLeft={10}>
         {isLoading ? (
           <Loader />

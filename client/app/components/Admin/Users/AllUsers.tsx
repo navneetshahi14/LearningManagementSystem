@@ -153,7 +153,7 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
   };
 
   return (
-    <div className="mt-[80px] h-auto ">
+    <div className={`${isTeam ? "mt-[0px]": "mt-0"} h-auto`}>
       {isLoading ? (
         <Loader />
       ) : (

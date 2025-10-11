@@ -142,7 +142,7 @@ const CourseInformation: React.FC<Props> = ({
                 type="number"
                 name=""
                 required
-                value={courseInfo.price}
+                value={courseInfo?.price}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setCourseInfo({ ...courseInfo, price: e?.target?.value })
                 }
@@ -273,6 +273,8 @@ const CourseInformation: React.FC<Props> = ({
                   src={courseInfo.thumbnail}
                   alt=""
                   className="max-h-full w-full object-cover"
+                  height={60}
+                  width={80}
                 />
               ) : (
                 <span className="text-black dark:text-white">

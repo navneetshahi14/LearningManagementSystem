@@ -138,7 +138,7 @@ useEffect(()=>{
 
   return (
     <div className="w-full flex min-h-screen">
-      <DashboardHero />
+      {/* <DashboardHero /> */}
       <div className="w-[80%]">
         {active === 0 && (
           <CourseInformation
@@ -159,7 +159,7 @@ useEffect(()=>{
           />
         )}
         {active === 2 && (
-          <CourseContent
+          <CourseContent 
             active={active}
             setActive={setActive}
             courseContentData={courseContentData}

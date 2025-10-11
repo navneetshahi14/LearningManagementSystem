@@ -133,10 +133,8 @@ export const getAllCourse = CatchAsyncError(async (req: Request, res: Response, 
 export const getCourseByUser = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userCourseList = req.user?.courses
-        console.log(userCourseList)
 
         const courseId = req.params.id
-        console.log(courseId)
 
         const courseExist = userCourseList?.find((course: any) => course.courseId.toString() === courseId)
 
@@ -147,7 +145,6 @@ export const getCourseByUser = CatchAsyncError(async (req: Request, res: Respons
         const course = await CourseModel.findById(courseId)
 
         const content = course?.courseData
-        console.log(content)
 
         res.status(200).json({
             success: true,
@@ -446,7 +443,6 @@ export const generateVideoUrl = CatchAsyncError(async(req:Request,res:Response,n
         res.status(200).json(response.data)
 
     }catch(error:any){
-        console.log("Error:->",error.message)
         return next(new Errorhandler(error.message,400))
     }
 })

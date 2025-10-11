@@ -1,18 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @next/next/no-img-element */
 import { styles } from '@/app/styles/styles';
 import { useEditLayoutMutation, useGetHerodataQuery } from '@/redux/feature/layout/layout';
-// import { setupListeners } from '@reduxjs/toolkit/query';
 import React, { FC, useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { AiOutlineCamera } from 'react-icons/ai';
 
-type Props = {}
-
-const EditHero: FC<Props> = (props: Props) => {
+const EditHero = () => {
     const [image, setImages] = useState("");
     const [title, setTitle] = useState("");
     const [subTitle, setSubTitle] = useState("");
@@ -20,7 +12,6 @@ const EditHero: FC<Props> = (props: Props) => {
     const [editLayout, { isSuccess, isLoading, error }] = useEditLayoutMutation()
 
     const { data,refetch } = useGetHerodataQuery("Banner", { refetchOnMountOrArgChange: true })
-    console.log(data)
 
     useEffect(() => {
         if (data) {
@@ -67,7 +58,7 @@ const EditHero: FC<Props> = (props: Props) => {
 
     return (
         <>
-            <div className="w-full lg:flex items-center">
+            <div className="w-full relative lg:flex items-center">
                 <div className="absolute top-[100px] lg:top-[82px] 2xl:top-[165px] 2xl:h-[400px] 2xl:w-[400px] lg:h-[500px] lg:w-[500px] h-[40vh] w-[40vw] hero_animation rounded-full flex items-center lg:ml-15 lg:mt-5 2xl:ml-20 "></div>
                 <div className="lg:w-[40%] flex lg:min-h-screen items-center justify-end pt-[70px] lg:pt-0 z-10">
                     <div className="relative flex items-center justify-end">
@@ -80,7 +71,7 @@ const EditHero: FC<Props> = (props: Props) => {
                 </div>
                 <div className="lg:w-[60%] flex flex-col items-center lg:mt-[0px] text-center lg:text-left mt-[150px]">
                     <textarea
-                        className='dark:text-white resize-none text-[#000000c7] text-[30px] px-3 w-full lg:text-[60px] 2xl:text-[70px] font-[600] bg-transparent '
+                        className='dark:text-white resize-none text-[#000000c7] text-[30px] px-3 w-full lg:text-[60px] 2xl:text-[70px] font-[600] bg-transparent 2xl:!w-[75%] lg:!w-[74%]  '
                         placeholder="Improve Your Online Learning Experince Better Instanlty"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}

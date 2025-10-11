@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { useTheme } from 'next-themes'
 import { MdAnalytics, MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md'
 import { RiLogoutBoxRLine } from 'react-icons/ri'
+import { signOut } from 'next-auth/react'
 
 interface itemProp {
     title: string
@@ -21,11 +22,32 @@ interface itemProp {
     setSelected: any
 }
 
+interface item2Prop {
+    title: string
+    to: string
+    icon: JSX.Element
+    selected: string
+    logoutHandler:()=>void
+}
+
 const Item: FC<itemProp> = ({ title, to, icon, selected, setSelected }) => {
     return (
         <MenuItem
             active={selected === title}
             onClick={() => setSelected(title)}
+            icon={icon}
+        >
+            <Typography className='!text-[16px] !font-poppins ' >{title}</Typography>
+            <Link href={to}  ></Link>
+        </MenuItem>
+    )
+}
+
+const Item2: FC<item2Prop> = ({ title, to, icon, selected,logoutHandler }) => {
+    return (
+        <MenuItem
+            active={selected === title}
+            onClick={() => logoutHandler}
             icon={icon}
         >
             <Typography className='!text-[16px] !font-poppins ' >{title}</Typography>
@@ -49,8 +71,10 @@ const AdminSidebar = () => {
         return null
     }
 
-    const logoutHandler = () => {
+    const logoutHandler = async () => {
         setLogout(true)
+        await signOut()
+
     }
 
 
@@ -282,12 +306,20 @@ const AdminSidebar = () => {
                                 className='!text-[18px] text-black dark:text-[#ffffff1c] capitalize !font-[400] '
                             >{!isCollapsed && "Extras"}</Typography>
 
-                            <Item
+                            {/* <Item
                                 title={`Logout`}
                                 to='/admin/logout'
                                 icon={<RiLogoutBoxRLine />}
                                 selected={selected}
                                 setSelected={setSelected}
+                                
+                            /> */}
+                            <Item2 
+                                title='Logout'
+                                to='/'
+                                icon={<RiLogoutBoxRLine />}
+                                selected={selected}
+                                logoutHandler={logoutHandler}
                             />
 
                         </Box>

@@ -17,13 +17,12 @@ const Page = ({params}: { params: Promise<{ id: string }> }) => {
                 description='ElevateX is a plateform for students to learn and get help from teachers'
                 keyword='Programming,Mern,Redux,Machine Learning'
             />
-            <div className="flex">
+            <div className="flex ">
                 <div className="2xl:w-[16%] w-1/5">
                     <AdminSidebar />
                 </div>
                 <div className="w-[80%]">
                     <DashboardHero />
-                    {/* <CreateCourse /> */}
                     <EditCourse id={id} />
                 </div>
             </div>
