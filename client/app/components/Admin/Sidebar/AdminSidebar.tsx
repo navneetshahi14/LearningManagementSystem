@@ -13,13 +13,14 @@ import { useTheme } from 'next-themes'
 import { MdAnalytics, MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md'
 import { RiLogoutBoxRLine } from 'react-icons/ri'
 import { signOut } from 'next-auth/react'
+import { AuthState } from '@/app/hooks/useUserAuth'
 
 interface itemProp {
     title: string
     to: string
     icon: JSX.Element
     selected: string
-    setSelected: any
+    setSelected: (selection:string) =>void
 }
 
 interface item2Prop {
@@ -58,12 +59,12 @@ const Item2: FC<item2Prop> = ({ title, to, icon, selected,logoutHandler }) => {
 
 const AdminSidebar = () => {
 
-    const { user } = useSelector((state: any) => state.auth)
-    const [logout, setLogout] = useState(false)
+    const { user } = useSelector((state: AuthState) => state.auth)
+    const [, setLogout] = useState(false)
     const [isCollapsed, setIsCollapsed] = useState(false)
     const [selected, setSelected] = useState("Dashboard")
     const [mounted, setMounted] = useState(false)
-    const { theme, setTheme } = useTheme()
+    const { theme } = useTheme()
 
     useEffect(() => setMounted(true), [])
 
@@ -152,7 +153,7 @@ const AdminSidebar = () => {
                                 <Box mb={`25px`}>
                                     <Box display={`flex`} justifyContent={`center`} alignItems={`center`} >
                                         <Image
-                                            src={user.avatar ? user.avatar.url : avatarDefault}
+                                            src={user?.avatar ? user.avatar.url : avatarDefault}
                                             alt='profile-user'
                                             width={100}
                                             height={100}

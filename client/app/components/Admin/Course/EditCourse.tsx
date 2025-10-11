@@ -8,7 +8,6 @@ import CoursePreview from "../CoursePreview";
 import { useEditCourseMutation, useGetAllCoursesQuery } from "@/redux/feature/courses/courseApi";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
-import DashboardHero from "../DashboardHero";
 
 type Props = {
     id:string;

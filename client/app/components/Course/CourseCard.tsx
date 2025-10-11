@@ -48,9 +48,7 @@ export type courseDataItem = {
   title: string;
   description: string;
   videoUrl: string;
-  videoThumbnail: {
-    
-  };
+  // videoThumbnail: {};
   videoSection: string;
   videoLength: number;
   videoPlayer: string;

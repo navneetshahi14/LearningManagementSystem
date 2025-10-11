@@ -1,6 +1,6 @@
 import { styles } from '@/app/styles/styles';
 import { useEditLayoutMutation, useGetHerodataQuery } from '@/redux/feature/layout/layout';
-import React, { FC, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { AiOutlineCamera } from 'react-icons/ai';
 
@@ -9,7 +9,7 @@ const EditHero = () => {
     const [title, setTitle] = useState("");
     const [subTitle, setSubTitle] = useState("");
 
-    const [editLayout, { isSuccess, isLoading, error }] = useEditLayoutMutation()
+    const [editLayout, { isSuccess, error }] = useEditLayoutMutation()
 
     const { data,refetch } = useGetHerodataQuery("Banner", { refetchOnMountOrArgChange: true })
 
@@ -25,20 +25,22 @@ const EditHero = () => {
         }
         if (error) {
             if ("data" in error) {
-                const errorMessage = error as any;
+                const errorMessage = error as {data:{message:string}};
                 toast.error(errorMessage?.data?.message);
             }
         }
 
     }, [data, isSuccess, error])
 
-    const handleUpdate = async (e: any) => {
+    const handleUpdate = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = (e: any) => {
+            reader.onload = (e: ProgressEvent<FileReader>) => {
                 if (reader.readyState === 2) {
-                    setImages(e.target.result as string);
+                    if(typeof e.target?.result === "string"){
+                        setImages((e.target.result as string));
+                    }
                 }
             }
             reader.readAsDataURL(file);

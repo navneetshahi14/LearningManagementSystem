@@ -2,7 +2,7 @@
 import { useSelector } from "react-redux";
 import { userItem } from "../components/Course/CourseCard";
 
-type AuthState = {
+export type AuthState = {
   auth: {
     user: userItem | null;
   };
