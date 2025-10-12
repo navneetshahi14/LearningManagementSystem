@@ -1,11 +1,5 @@
-Sure bro 😎 — here’s a clean, professional, and **developer-friendly `README.md`** for your **Learning Management System (LMS)** built with **Next.js, Express, Node.js, MongoDB, Stripe, and more**.
-
-You can copy-paste this directly into your repo — it’s already formatted in Markdown.
-
----
-
 ```markdown
-# 🎓 LMS — Full Stack Learning Management System
+# 🎓 ElevateX — Full Stack Learning Management System
 
 A modern, full-featured **Learning Management System (LMS)** built using the **MERN + Next.js stack**, designed for both students and instructors.  
 This platform enables seamless **course creation, enrollment, payments, progress tracking, and video streaming** — all powered by modern web technologies.
@@ -25,7 +19,7 @@ This platform enables seamless **course creation, enrollment, payments, progress
 - 🧠 Node.js — runtime environment  
 - 🍃 [MongoDB + Mongoose](https://mongoosejs.com/) — database & ORM  
 - 💳 [Stripe](https://stripe.com/) — payment gateway integration  
-- 🪶 Cloudinary / AWS S3 — for media uploads (images, thumbnails, PDFs)  
+- 🪶 [Cloudinary](https://cloudinary.com/) — for media uploads (images, thumbnails)  
 
 ---
 
@@ -42,53 +36,28 @@ This platform enables seamless **course creation, enrollment, payments, progress
 - Earn certificates upon completion  
 
 ### ⚙️ Platform Features
-- Secure authentication (JWT or Clerk/Auth.js)  
-- Role-based access control (Admin / Instructor / Student)  
+- Secure authentication (JWT or NextAuth)  
+- Role-based access control (Admin / Student)  
 - Global search & filtering  
 - Real-time course progress tracking  
 - Dark / Light theme support  
 
 ---
 
-## 🧩 Project Structure
 
-```
-
-lms/
-├── client/                 # Next.js frontend
-│   ├── components/
-│   ├── pages/
-│   ├── utils/
-│   └── styles/
-│
-├── server/                 # Express.js backend
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── middlewares/
-│   └── config/
-│
-├── .env                    # environment variables
-├── package.json
-└── README.md
-
-````
-
----
 
 ## ⚙️ Installation & Setup
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/lms.git
-cd lms
+git clone https://github.com/navneetshahi14/LearningManagementSystem.git
+cd LearningManagementSystem
 ````
 
 ### 2. Install dependencies
 
 ```bash
-# install root + client + server dependencies
-npm install
+
 cd client && npm install
 cd ../server && npm install
 ```
@@ -100,20 +69,38 @@ Create a `.env` file in both `/client` and `/server` directories.
 #### Example (Server)
 
 ```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-STRIPE_SECRET_KEY=your_stripe_secret
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
+PORT=8000
+NODE_ENV=development
+DB_URI=your_mongodb_uri
+CLOUDINARY_NAME=your_cloud_name
+CLOUDINARY_SECRET_KEY=your_cloud_sercet_key
+REDIS_URL=your_redis_uri
+ACTIVATION_SECRET=your_activation_secret
+ACCESS_TOKEN=your-access-token
+REFRESH_TOKEN=your-refresh-token
+ACCESS_TOKEN_EXPIRE=5
+REFRESH_TOKEN_EXPIRE=3
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_SERVICE=gmail
+SMTP_MAIL=your-email
+SMTP_PASSWORD=your-password
+VIDEOCIPHER_API_SECRET=your-videocipher-api-secret
+STRIPE_PUBLISHABLE_KEY=your-stripe-publishable-key
+STRIPE_SECRET_KEY=your-stripe-secret-key
+API_URL=http://localhost:8000
 ```
 
 #### Example (Client)
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:5000
-NEXT_PUBLIC_STRIPE_PUBLIC_KEY=your_stripe_public_key
+NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+NEXT_PUBLIC_SOCKET_SERVER_URI=http://localhost:8000
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+SECRET=your-secret
 ```
 
 ### 4. Run the development servers
@@ -130,7 +117,7 @@ npm run dev
 
 The app will be live at:
 **Frontend:** `http://localhost:3000`
-**Backend:** `http://localhost:5000`
+**Backend:** `http://localhost:8000`
 
 ---
 
@@ -148,7 +135,6 @@ The app will be live at:
 * ChatGPT-powered Q&A Assistant
 * Gamification (XP, badges, streaks)
 * Admin analytics dashboard
-* Mobile app (React Native version)
 
 ---
 
@@ -187,6 +173,3 @@ Feel free to use and modify it for personal or commercial purposes.
 
 ⭐ **Star this repo** if you found it helpful!
 
-
-
-```
