@@ -1,0 +1,23 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const course_controller_1 = require("../controller/course.controller");
+const auth_1 = require("../middleware/auth");
+const user_controller_1 = require("../controller/user.controller");
+const CourseRouter = express_1.default.Router();
+CourseRouter.post('/create-course', user_controller_1.updateAccessToken, auth_1.isAuthenticated, (0, auth_1.authorizeRoles)('admin'), course_controller_1.uploadCourse);
+CourseRouter.put('/edit-course/:id', user_controller_1.updateAccessToken, auth_1.isAuthenticated, (0, auth_1.authorizeRoles)('admin'), course_controller_1.editCourse);
+CourseRouter.get('/get-course/:id', course_controller_1.getSingleCourse);
+CourseRouter.get('/get-all-course', course_controller_1.getAllCourse);
+CourseRouter.get('/get-course-content/:id', user_controller_1.updateAccessToken, auth_1.isAuthenticated, course_controller_1.getCourseByUser);
+CourseRouter.put('/add-question', user_controller_1.updateAccessToken, auth_1.isAuthenticated, course_controller_1.addQuestion);
+CourseRouter.put('/add-answer', user_controller_1.updateAccessToken, auth_1.isAuthenticated, course_controller_1.addAnswer);
+CourseRouter.put('/add-review/:id', user_controller_1.updateAccessToken, auth_1.isAuthenticated, course_controller_1.addReview);
+CourseRouter.put('/add-reply', user_controller_1.updateAccessToken, auth_1.isAuthenticated, (0, auth_1.authorizeRoles)("admin"), course_controller_1.addReplyToReview);
+CourseRouter.get('/get-courses', user_controller_1.updateAccessToken, auth_1.isAuthenticated, (0, auth_1.authorizeRoles)('admin'), course_controller_1.GettingAllCourses);
+CourseRouter.post('/getVideoCipherOTP', course_controller_1.generateVideoUrl);
+CourseRouter.delete('/delete-course/:id', user_controller_1.updateAccessToken, auth_1.isAuthenticated, (0, auth_1.authorizeRoles)('admin'), user_controller_1.deleteCourse);
+exports.default = CourseRouter;

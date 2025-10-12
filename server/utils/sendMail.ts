@@ -1,4 +1,6 @@
 import nodemailer,{createTransport, Transporter} from 'nodemailer'
+// import dotenv from 'dotenv'
+// dotenv.config()
 
 import ejs from 'ejs'
 import path from 'path'
