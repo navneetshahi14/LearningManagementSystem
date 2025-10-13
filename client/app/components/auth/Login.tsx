@@ -46,7 +46,6 @@ const Login: FC<Props> = ({setRoute,setOpen,refetch}) => {
                 toast.error(errorData.data.message)
             }
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[isSuccess,error])
 
     const { errors, touched, values, handleChange, handleSubmit } = formik

@@ -140,7 +140,8 @@ The app will be live at:
 
 ## 📸 Screenshots
 
-> *(Add screenshots or demo GIFs here)*
+![HomePage](/client/public/Github.png)
+![CoursePage](/client/public/Github2.png)
 
 ---
 
