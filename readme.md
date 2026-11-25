@@ -1,4 +1,3 @@
-```markdown
 # 🎓 ElevateX — Full Stack Learning Management System
 
 A modern, full-featured **Learning Management System (LMS)** built using the **MERN + Next.js stack**, designed for both students and instructors.  
@@ -49,15 +48,14 @@ This platform enables seamless **course creation, enrollment, payments, progress
 ## ⚙️ Installation & Setup
 
 ### 1. Clone the repository
-```bash
+```
 git clone https://github.com/navneetshahi14/LearningManagementSystem.git
 cd LearningManagementSystem
-````
+```
 
 ### 2. Install dependencies
 
-```bash
-
+```
 cd client && npm install
 cd ../server && npm install
 ```
